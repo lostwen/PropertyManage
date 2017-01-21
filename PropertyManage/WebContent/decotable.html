@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<title>装修记录统计表</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+
+
+
+
+<link rel="icon" type="image/ico" href="assets/images/favicon.ico" />
+<!-- Bootstrap -->
+<link href="assets/bootstrap/css/bootstrap.css" rel="stylesheet">
+<link href="assets/font-awesome-4.7.0/css/font-awesome.css"
+	rel="stylesheet">
+<link rel="stylesheet" href="assets/css/vendor/animate/animate.css">
+<link type="text/css" rel="stylesheet" media="all"
+	href="assets/js/vendor/mmenu/css/jquery.mmenu.all.css" />
+<link rel="stylesheet"
+	href="assets/js/vendor/videobackground/css/jquery.videobackground.css">
+<link rel="stylesheet" href="assets/css/vendor/bootstrap-checkbox.css">
+
+
+
+
+<link rel="stylesheet" href="assets/js/vendor/chosen/css/chosen.min.css">
+<link rel="stylesheet"
+	href="assets/js/vendor/chosen/css/chosen-bootstrap.css">
+<link rel="stylesheet"
+	href="assets/js/vendor/datatables/css/dataTables.bootstrap.css">
+<link rel="stylesheet" href="assets/js/vendor/datatables/css/ColVis.css">
+<link rel="stylesheet"
+	href="assets/js/vendor/datatables/css/TableTools.css">
+
+
+<link rel="stylesheet" href="assets/toastr/css/toastr.css">
+<link href="assets/css/minimal.css" rel="stylesheet">
+
+
+
+
+<style type="text/css">
+#basicDataTable #tbody td {
+	text-align: center;
+}
+
+.pageheader .breadcrumbs {
+	left: 0;
+}
+
+#wrap #content .main {
+	margin: 20px 0px;
+}
+
+#clientInfo .tile-body {
+	max-height: 450px;
+	overflow-y: auto;
+}
+
+#clientInfo2 .tile-body {
+	max-height: 450px;
+	overflow-y: auto;
+}
+/* .form-horizontal .form-group {
+       margin-right: 0px;
+    margin-left: 0px;
+    } */
+body #content .tile.transparent-black .form-control[disabled] {
+	background-color: rgba(255, 255, 255, 0.1);
+	border: 0;
+	color: #FFF;
+}
+
+.radio label:before {
+	bottom: 3px;
+}
+
+div.modal-body div {
+	overflow: hidden;
+}
+</style>
+
+
+
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body class="bg-3">
+	<!-- Preloader -->
+	<div class="mask">
+		<div id="loader"></div>
+	</div>
+	<!--/Preloader -->
+	<!-- Wrap all page content here -->
+	<div id="wrap">
+		<!-- Make page fluid -->
+		<div class="row">
+			<!-- Fixed navbar -->
+			<div
+				class="navbar navbar-default navbar-fixed-top navbar-transparent-black mm-fixed-top"
+				role="navigation" id="navbar">
+				<!-- Branding -->
+				<div class="navbar-header col-md-2">
+					<a class="navbar-brand" href="datatable.html"> <strong>物业管理</strong>
+					</a>
+					<div class="sidebar-collapse">
+						<a href="#"> <i class="fa fa-bars"></i>
+						</a>
+					</div>
+				</div>
+				<!-- Branding end -->
+				<!-- .nav-collapse -->
+				<div class="navbar-collapse">
+					<!-- Quick Actions -->
+					<ul class="nav navbar-nav quick-actions">
+
+
+						<li class="dropdown user" id="current-user"><a
+							class="dropdown-toggle options" data-toggle="dropdown" href="#">
+								<i class="fa fa-user"></i> <span id="userName"></span> <i
+								class="fa fa-caret-down"></i>
+						</a>
+							<ul class="dropdown-menu arrow settings pull-right">
+								<li>
+									<h3>背景色:</h3>
+									<ul id="color-schemes">
+										<li><a href="#" class="bg-1"></a></li>
+										<li><a href="#" class="bg-2"></a></li>
+										<li><a href="#" class="bg-3"></a></li>
+										<li><a href="#" class="bg-4"></a></li>
+										<li><a href="#" class="bg-5"></a></li>
+										<li><a href="#" class="bg-6"></a></li>
+									</ul>
+								</li>
+								<li class="divider"></li>
+								<li id="hide1"><a href="javascript:createUser();"><i
+										class="fa fa-user"></i> 新建管理员</a></li>
+								<li id="hide2" class="divider"></li>
+								<li id="hide3"><a href="javascript:createPlot();"><i
+										class="fa fa-home"></i> 添加新小区</a></li>
+								<li id="hide4" class="divider"></li>
+								<li><a href="javascript:updatePwd();"><i
+										class="fa fa-key"></i> 修改密码</a></li>
+								<li class="divider"></li>
+								<li><a href="javascript:logOut();"><i
+										class="fa fa-power-off"></i> 退出</a></li>
+							</ul></li>
+						<li><a href="#mmenu"></a></li>
+					</ul>
+					<!-- /Quick Actions -->
+					<!-- Sidebar -->
+					<ul class="nav navbar-nav side-nav" id="sidebar">
+						<li class="collapsed-content">
+							<ul>
+								<li class="search">
+									<!-- Collapsed search pasting here at 768px -->
+								</li>
+							</ul>
+						</li>
+						<li class="navigation" id="navigation"><a href="#"
+							class="sidebar-toggle" data-toggle="#navigation">新增记录 <i
+								class="fa fa-angle-up"></i>
+						</a>
+							<ul class="menu">
+								<li><a href="createHost.html"> <i class="fa fa-table"></i>
+										业主信息
+								</a></li>
+								<!-- <li><a href="#"> <i class="fa fa-list"></i>
+车位信息
+</a></li>
+<li><a href="#"> <i class="fa fa-pencil"></i>
+维修记录
+</a></li>
+<li><a href="#"> <i class="fa fa-tint"></i>
+装修记录
+</a></li>
+<li><a href="#"> <i class="fa fa-th"></i>
+好人好事
+</a></li> -->
+
+
+
+
+
+
+							</ul></li>
+						<li class="navigation" id="navigation3">
+							<ul class="menu">
+								<li id="allArea" class="dropdown open"><a href="#"
+									class="dropdown-toggle" data-toggle="dropdown"> <i
+										class="fa fa-list"></i> 查看各小区 <b
+										class="fa fa-plus dropdown-plus"></b>
+								</a>
+									<ul id="plotList" class="dropdown-menu">
+
+
+									</ul></li>
+							</ul>
+						</li>
+						<li class="navigation" id="navigation2"><a href="#"
+							class="sidebar-toggle" data-toggle="#navigation2">筛选查看 <i
+								class="fa fa-angle-up"></i>
+						</a>
+							<ul class="menu">
+
+
+
+
+
+
+
+
+								<li><a href="javascript:getClientInfo();"> <i
+										class="fa fa-tasks"></i> 业主信息
+								</a></li>
+								<li><a href="javascript:getCarInfo();"> <i
+										class="fa fa-car"></i> 车位信息
+								</a></li>
+								<li><a href="javascript:getFixInfo();"> <i
+										class="fa fa-wrench"></i> 维修记录
+								</a></li>
+								<li><a href="javascript:getDecoInfo();"> <i
+										class="fa fa-magic"></i> 装修记录
+								</a></li>
+								<li><a href="javascript:getGoodInfo();"> <i
+										class="fa fa-star-o"></i> 好人好事
+								</a></li>
+								<!-- <li><a href="#"> <i class="fa fa-desktop"></i>
+物业欠费
+</a></li> -->
+
+
+							</ul></li>
+					</ul>
+					<!-- Sidebar end -->
+				</div>
+				<!--/.nav-collapse -->
+			</div>
+			<!-- Fixed navbar end -->
+			<!-- Page content -->
+			<div id="content" class="col-md-12">
+				<!-- page header -->
+
+
+				<!-- /page header -->
+				<!-- content main container -->
+				<div class="main">
+					<!-- row -->
+					<div class="row">
+						<!-- col 12 -->
+						<div class="col-md-12">
+							<!-- tile -->
+							<section class="tile transparent" style="display: block;"
+								id="overview">
+								<!-- tile header -->
+								<div class="tile-header transparent">
+									<h1>
+										<strong id="areaTitle"></strong>（装修记录）
+									</h1>
+								</div>
+								<!-- /tile header -->
+								<!-- tile body -->
+								<div class="tile-body color transparent-black rounded-corners">
+									<div class="table-responsive">
+										<table class="table table-datatable table-custom"
+											id="basicDataTable">
+											<thead>
+												<tr>
+													<th class="sort-amount">幢号</th>
+													<th class="sort-amount">室号</th>
+													<th class="sort-alpha">装修业主</th>
+													<th class="sort-amount">联系电话</th>
+													<th class="sort-alpha">装修手续</th>
+													<th class="sort-alpha">装修违规操作</th>
+													<th class="sort-alpha">物业巡查记录</th>
+													<th class="sort-amount">装修押金</th>
+													<th class="sort-amount">退还押金</th>
+													<th class="sort-alpha">验收结果</th>
+												</tr>
+											</thead>
+											<tbody id="tbody"></tbody>
+										</table>
+									</div>
+								</div>
+								<!-- /tile body -->
+							</section>
+							<!-- /tile -->
+
+
+
+
+
+
+
+
+						</div>
+						<!-- /col 12 -->
+					</div>
+					<!-- /row -->
+				</div>
+				<!-- /content container -->
+			</div>
+			<!-- Page content end -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		</div>
+		<!-- Make page fluid-->
+	</div>
+	<!-- Wrap all page content end -->
+	<section class="videocontent" id="video"></section>
+
+
+
+
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="assets/js/jquery-1.12.4.min.js"></script>
+	<script src="assets/js/bootbox.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="assets/js/vendor/bootstrap/bootstrap.min.js"></script>
+	<!-- <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css&skin=sons-of-obsidian"></script> -->
+	<script src="assets/js/vendor/mmenu/js/jquery.mmenu.min.js"></script>
+	<script src="assets/js/vendor/sparkline/jquery.sparkline.min.js"></script>
+	<script src="assets/js/vendor/nicescroll/jquery.nicescroll.min.js"></script>
+	<script src="assets/js/vendor/animate-numbers/jquery.animateNumbers.js"></script>
+	<script
+		src="assets/js/vendor/videobackground/jquery.videobackground.js"></script>
+	<script src="assets/js/vendor/blockui/jquery.blockUI.js"></script>
+
+
+	<script src="assets/js/vendor/datatables/jquery.dataTables.min.js"></script>
+	<script src="assets/js/vendor/datatables/ColReorderWithResize.js"></script>
+	<script
+		src="assets/js/vendor/datatables/colvis/dataTables.colVis.min.js"></script>
+	<script src="assets/js/vendor/datatables/tabletools/ZeroClipboard.js"></script>
+	<script
+		src="assets/js/vendor/datatables/tabletools/dataTables.tableTools.min.js"></script>
+	<script src="assets/js/vendor/datatables/dataTables.bootstrap.js"></script>
+
+
+
+
+	<script src="assets/js/vendor/chosen/chosen.jquery.min.js"></script>
+
+
+	<script type="text/javascript" src="assets/toastr/js/toastr.js"></script>
+	<script src="assets/js/minimal.min.js"></script>
+	<script type="text/javascript">
+		toastr.options = {
+			positionClass : "toast-top-center",
+			timeOut : "1000"
+		}
+		var plotInfo = null;
+		$.ajax({
+			type : "get",
+			url : "getPlotList",
+			dataType : "json",
+			async : false,
+			success : function(data) {
+				plotInfo = data;
+				for ( var i in data) {
+					$("#plotList").append(
+							"<li><a href='javascript:getProperty("
+									+ data[i].plotId
+									+ ");'> <i class='fa fa-caret-right'></i> "
+									+ data[i].plotName + " </a></li>");
+				}
+			}
+		});
+
+		var userInfo = null;
+		var carInfo = null;
+		var area = 0;
+		var carId = 0;
+		$.ajax({
+			type : "get",
+			url : "GetSession",
+			dataType : "json",
+			async : false,
+			success : function(data) {
+				if (data) {
+					userInfo = data;
+					area = data.area;
+					if (data.right == 1) {
+						$("#hide1").hide();
+						$("#hide2").hide();
+						$("#hide3").hide();
+						$("#hide4").hide();
+						$("#allArea").hide();
+					}
+					if (data.right == 0) {
+						$("#navigation").hide();
+					}
+
+					document.getElementById("userName").innerHTML = data.name;
+					//根据用户权限展现添加用户功能
+				} else {
+					window.location.href = "login.html";
+				}
+			}
+		});
+		//getProperty(area);
+		//在此处判断url中是否带参数
+		if (getQueryString("areaId")) {
+			area = getQueryString("areaId");
+		}
+
+		document.getElementById("areaTitle").innerHTML = ""
+				+ plotInfo[0].plotName + ":";
+
+		if (area > 0) {
+			for ( var i in plotInfo) {
+				if (area == plotInfo[i].plotId) {
+					document.getElementById("areaTitle").innerHTML = ""
+							+ plotInfo[i].plotName + ":";
+					break;
+				}
+			}
+		}
+
+		$.ajax({
+			type : "get",
+			url : "getDecoInfo",
+			data : {
+				'area' : area
+			},
+			dataType : "json",
+			async : false,
+			cache : false,
+			success : function(data) {
+				carInfo = data;
+
+				if (data.length < 1) {
+					$("#tbody").empty();
+				} else {
+					$("#tbody").empty();
+					for ( var i in data) {
+						$("#tbody").append(
+								"<tr >" + "<td>" + data[i].buildNum + "</td>"
+										+ "<td>" + data[i].roomNum + "</td>"
+										+ "<td>" + data[i].hostName + "</td>"
+										+ "<td>" + data[i].phone + "</td>"
+										+ "<td>" + data[i].decoProcedure
+										+ "</td>" + "<td>"
+										+ data[i].decoIllegal + "</td>"
+										+ "<td>" + data[i].decoRecord + "</td>"
+										+ "<td>" + data[i].decoPrepay + "</td>"
+										+ "<td>" + data[i].decoReturn + "</td>"
+										+ "<td>" + data[i].decoResult + "</td>"
+										+ "</tr>");
+					}
+				}
+			}
+		});
+
+		function createUser() {
+			window.location.href = "createUser.html";
+		}
+		function createPlot() {
+			window.location.href = "createPlot.html";
+		}
+		function updatePwd() {
+			bootbox
+					.dialog({
+						title : "修改密码：",
+						closeButton : false,
+						animate : true,
+						locale : "zh-CN",
+						message : "<div class='form-group'>"
+								+ "<label for='password' class='col-sm-4 control-label text-right'>新密码    *</label>"
+								+ "<div class='col-sm-8'>"
+								+ "<input type='password' class='form-control' id='password' parsley-trigger='change' parsley-required='true' parsley-minlength='6'  parsley-validation-minlength='1'>"
+								+ "</div>"
+								+ "</div>"
+								+ "<div class='form-group'>"
+								+ "<label for='repassword' class='col-sm-4 control-label text-right'>确认新密码    *</label>"
+								+ "<div class='col-sm-8'>"
+								+ "<input type='password' class='form-control' id='repassword' parsley-trigger='change' parsley-required='true' parsley-minlength='6'  parsley-validation-minlength='1'>"
+								+ "</div>" + "</div>",
+						buttons : {
+							"success" : {
+								"label" : "确认",
+								"className" : "btn btn-danger btn-sm",
+								"callback" : function() {
+									//判断密码是否一致
+									var pwd = $("#password").val();
+									var repwd = $("#repassword").val();
+									var userName = userInfo.name;
+									if (pwd && repwd) {
+										if (pwd != repwd) {
+											toastr.error('重复密码错误！');
+											$("#repassword").val("");
+											return false;
+										} else {
+											$
+													.ajax({
+														type : "get",
+														url : "updatePwd",
+														dataType : "text",
+														data : {
+															'userName' : userName,
+															'userPwd' : pwd
+														},
+														async : false,
+														success : function(data) {
+															if (data) {
+																logOut();
+															} else {
+																console
+																		.log(data);
+																toastr
+																		.error('修改密码失败！');
+															}
+														},
+														error : function(data) {
+															console.log(data);
+															toastr
+																	.error('修改密码失败！');
+														}
+													});
+										}
+									} else {
+										toastr.error('密码不能为空！');
+										return false;
+									}
+								}
+							},
+							"cancel" : {
+								"label" : "取消",
+								"className" : "btn btn-success btn-sm",
+								"callback" : function() {
+
+								}
+							}
+						}
+					});
+		}
+		function logOut() {
+			$.get("LogOut", function() {
+				window.location.href = "login.html";
+			});
+
+		}
+
+		function getProperty(areaId) {
+			window.location.href = "decotable.html?areaId=" + areaId;
+		}
+
+		//获取url中参数值
+		function getQueryString(name) {
+			var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+			var r = window.location.search.substr(1).match(reg);
+			if (r != null)
+				return unescape(r[2]);
+			return null;
+		}
+
+		function getCarInfo() {
+			window.location.href = "cartable.html";
+		}
+		function getClientInfo() {
+			window.location.href = "datatable.html";
+		}
+		function getFixInfo() {
+			window.location.href = "fixtable.html";
+		}
+		function getDecoInfo() {
+			window.location.href = "decotable.html";
+		}
+		function getGoodInfo() {
+			window.location.href = "goodtable.html";
+		}
+
+		// Add custom class to pagination div
+		$.fn.dataTableExt.oStdClasses.sPaging = 'dataTables_paginate paging_bootstrap paging_custom';
+
+		/*************************************************/
+		/**************** BASIC DATATABLE ****************/
+		/*************************************************/
+
+		/* Define two custom functions (asc and desc) for string sorting */
+		jQuery.fn.dataTableExt.oSort['string-case-asc'] = function(x, y) {
+			return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+		};
+
+		jQuery.fn.dataTableExt.oSort['string-case-desc'] = function(x, y) {
+			return ((x < y) ? 1 : ((x > y) ? -1 : 0));
+		};
+
+		/* Add a click handler to the rows - this could be used as a callback */
+		$("#basicDataTable tbody tr").click(function(e) {
+			if ($(this).hasClass('row_selected')) {
+				$(this).removeClass('row_selected');
+			} else {
+				oTable01.$('tr.row_selected').removeClass('row_selected');
+				$(this).addClass('row_selected');
+			}
+
+			// FadeIn/Out delete rows button
+			if ($('#basicDataTable tr.row_selected').length > 0) {
+				$('#deleteRow').stop().fadeIn(300);
+			} else {
+				$('#deleteRow').stop().fadeOut(300);
+			}
+		});
+
+		/* Build the DataTable with third column using our custom sort functions */
+		var oTable01 = $('#basicDataTable')
+				.dataTable(
+						{
+							"sDom" : "R<'row'<'col-md-6'l><'col-md-6'f>r>"
+									+ "t"
+									+ "<'row'<'col-md-4 sm-center'i><'col-md-4'><'col-md-4 text-right sm-center'p>>",
+							"oLanguage" : {
+								"sProcessing" : "处理中...",
+								"sLengthMenu" : "显示 _MENU_ 项结果",
+								"sZeroRecords" : "没有匹配结果",
+								"sInfo" : "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+								"sInfoEmpty" : "显示第 0 至 0 项结果，共 0 项",
+								"sInfoFiltered" : "(由 _MAX_ 项结果过滤)",
+								"sInfoPostFix" : "",
+								"sSearch" : "快速检索：",
+								"sUrl" : "",
+								"sEmptyTable" : "表中数据为空",
+								"sLoadingRecords" : "载入中...",
+								"sInfoThousands" : ",",
+								"oPaginate" : {
+									"sFirst" : "首页",
+									"sPrevious" : "上页",
+									"sNext" : "下页",
+									"sLast" : "末页"
+								},
+								"oAria" : {
+									"sSortAscending" : ": 以升序排列此列",
+									"sSortDescending" : ": 以降序排列此列"
+								}
+							},
+							"aoColumnDefs" : [ {
+								'bSortable' : false,
+								'aTargets' : [ "no-sort" ]
+							} ],
+							"fnInitComplete" : function(oSettings, json) {
+								$('.dataTables_filter input').attr(
+										"placeholder", "");
+							}
+						});
+
+		//initialize chosen
+		$('.dataTables_length select').chosen({
+			disable_search_threshold : 10
+		});
+	</script>
+</body>
+</html>

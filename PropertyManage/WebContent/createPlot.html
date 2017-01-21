@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>新建小区</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+
+<link rel="icon" type="image/ico" href="assets/images/favicon.ico" />
+<!-- Bootstrap -->
+<link href="assets/css/vendor/bootstrap/bootstrap.min.css"
+	rel="stylesheet">
+<link href="assets/font-awesome-4.7.0/css/font-awesome.css"
+	rel="stylesheet">
+<link rel="stylesheet" href="assets/css/vendor/animate/animate.css">
+<link type="text/css" rel="stylesheet" media="all"
+	href="assets/js/vendor/mmenu/css/jquery.mmenu.all.css" />
+<link rel="stylesheet"
+	href="assets/js/vendor/videobackground/css/jquery.videobackground.css">
+<link rel="stylesheet" href="assets/css/vendor/bootstrap-checkbox.css">
+
+
+<link rel="stylesheet" href="assets/js/vendor/chosen/css/chosen.min.css">
+<link rel="stylesheet"
+	href="assets/js/vendor/chosen/css/chosen-bootstrap.css">
+
+<link rel="stylesheet" href="assets/toastr/css/toastr.css">
+<link href="assets/css/minimal.css" rel="stylesheet">
+<style type="text/css">
+div.modal-body div {
+	overflow: hidden;
+}
+</style>
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body class="bg-3">
+
+
+
+
+
+
+
+
+	<!-- Preloader -->
+	<div class="mask">
+		<div id="loader"></div>
+	</div>
+	<!--/Preloader -->
+
+
+	<!-- Wrap all page content here -->
+	<div id="wrap">
+
+
+
+
+
+
+
+
+		<!-- Make page fluid -->
+		<div class="row">
+
+
+
+
+
+
+
+
+
+
+			<!-- Fixed navbar -->
+			<div
+				class="navbar navbar-default navbar-fixed-top navbar-transparent-black mm-fixed-top"
+				role="navigation" id="navbar">
+
+
+
+
+
+
+				<!-- Branding -->
+				<div class="navbar-header col-md-2">
+					<a class="navbar-brand" href="datatable.html"> <strong>物业管理</strong>
+					</a>
+					<div class="sidebar-collapse">
+						<a href="#"> <i class="fa fa-bars"></i>
+						</a>
+					</div>
+				</div>
+				<!-- Branding end -->
+
+
+
+
+				<!-- .nav-collapse -->
+				<div class="navbar-collapse">
+					<!-- Quick Actions -->
+					<ul class="nav navbar-nav quick-actions">
+
+
+						<li class="dropdown user" id="current-user"><a
+							class="dropdown-toggle options" data-toggle="dropdown" href="#">
+								<i class="fa fa-user"></i> <span id="userName"></span> <i
+								class="fa fa-caret-down"></i>
+						</a>
+							<ul class="dropdown-menu arrow settings pull-right">
+								<li>
+									<h3>背景色:</h3>
+									<ul id="color-schemes">
+										<li><a href="#" class="bg-1"></a></li>
+										<li><a href="#" class="bg-2"></a></li>
+										<li><a href="#" class="bg-3"></a></li>
+										<li><a href="#" class="bg-4"></a></li>
+										<li><a href="#" class="bg-5"></a></li>
+										<li><a href="#" class="bg-6"></a></li>
+									</ul>
+								</li>
+								<li class="divider"></li>
+								<li><a href="javascript:createUser();"><i
+										class="fa fa-user"></i> 新建管理员</a></li>
+								<li class="divider"></li>
+								<li><a href="javascript:createPlot();"><i
+										class="fa fa-home"></i> 添加新小区</a></li>
+								<li class="divider"></li>
+								<li><a href="javascript:updatePwd();"><i
+										class="fa fa-key"></i> 修改密码</a></li>
+								<li class="divider"></li>
+								<li><a href="javascript:logOut();"><i
+										class="fa fa-power-off"></i> 退出</a></li>
+							</ul></li>
+						<li><a href="#mmenu"></a></li>
+					</ul>
+					<!-- /Quick Actions -->
+					<!-- Sidebar -->
+					<ul class="nav navbar-nav side-nav" id="sidebar"
+						style="display: none;">
+						<li class="collapsed-content">
+							<ul>
+								<li class="search">
+									<!-- Collapsed search pasting here at 768px -->
+								</li>
+							</ul>
+						</li>
+						<li class="navigation" id="navigation"><a href="#"
+							class="sidebar-toggle" data-toggle="#navigation">新增记录 <i
+								class="fa fa-angle-up"></i>
+						</a>
+							<ul class="menu">
+								<li><a href="#"> <i class="fa fa-tachometer"></i>
+										新增业主信息
+								</a></li>
+								<li><a href="#"> <i class="fa fa-list"></i> 新增车位信息
+								</a></li>
+								<li><a href="#"> <i class="fa fa-pencil"></i> 创建维修记录
+								</a></li>
+								<li><a href="#"> <i class="fa fa-tint"></i> 新增装修记录
+								</a></li>
+								<li><a href="#"> <i class="fa fa-th"></i> 新增好人好事
+								</a></li>
+
+
+
+
+
+
+							</ul></li>
+						<li class="navigation" id="navigation2"><a href="#"
+							class="sidebar-toggle" data-toggle="#navigation2">筛选查看 <i
+								class="fa fa-angle-up"></i>
+						</a>
+							<ul class="menu">
+
+
+								<li class="dropdown"><a href="#" class="dropdown-toggle"
+									data-toggle="dropdown"> <i class="fa fa-list"></i> 查看各小区 <b
+										class="fa fa-plus dropdown-plus"></b>
+								</a>
+									<ul class="dropdown-menu">
+										<li><a href="#"> <i class="fa fa-caret-right"></i>
+												富川瑞园
+										</a></li>
+										<li><a href="#"> <i class="fa fa-caret-right"></i> 雅苑
+										</a></li>
+										<li><a href="#"> <i class="fa fa-caret-right"></i>
+												鸿锦花园
+										</a></li>
+										<li><a href="#"> <i class="fa fa-caret-right"></i>
+												壹号公馆
+										</a></li>
+										<li><a href="#"> <i class="fa fa-caret-right"></i>
+												鸿大花园
+										</a></li>
+										<li><a href="#"> <i class="fa fa-caret-right"></i>
+												鸿泰家园
+										</a></li>
+										<li><a href="#"> <i class="fa fa-caret-right"></i>
+												宝带新村
+										</a></li>
+										<li><a href="#"> <i class="fa fa-caret-right"></i>
+												大唐新寓
+										</a></li>
+										<li><a href="#"> <i class="fa fa-caret-right"></i>
+												水岸华城
+										</a></li>
+									</ul></li>
+
+
+
+
+								<li><a href="#"> <i class="fa fa-th-large"></i> 停车欠费
+								</a></li>
+								<li><a href="#"> <i class="fa fa-desktop"></i> 物业欠费
+								</a></li>
+
+
+							</ul></li>
+					</ul>
+					<!-- Sidebar end -->
+				</div>
+				<!--/.nav-collapse -->
+
+
+			</div>
+			<!-- Fixed navbar end -->
+			<!-- Page content -->
+			<div id="content" class="col-md-12">
+
+
+				<!-- content main container -->
+				<div class="main">
+
+
+					<!-- row -->
+					<div class="row">
+
+
+						<!-- col 12 -->
+						<div class="col-md-8 col-md-offset-1">
+
+
+							<!-- tile -->
+							<section class="tile color transparent-black">
+
+
+								<!-- tile header -->
+								<div class="tile-header">
+									<h1>
+										<strong>添加新小区</strong>
+									</h1>
+								</div>
+								<!-- /tile header -->
+
+
+								<!-- tile body -->
+								<div class="tile-body">
+
+
+									<form class="form-horizontal" role="form" parsley-validate
+										id="basicvalidations">
+
+
+										<div class="form-group">
+											<label for="plotName" class="col-sm-4 control-label">小区名
+												*</label>
+											<div class="col-sm-8">
+												<input type="text" class="form-control" id="plotName"
+													parsley-trigger="change" parsley-required="true"
+													parsley-minlength="2" parsley-validation-minlength="1">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="plotPlace" class="col-sm-4 control-label">小区地址
+												*</label>
+											<div class="col-sm-8">
+												<input type="text" class="form-control" id="plotPlace"
+													parsley-trigger="change" parsley-required="true"
+													parsley-minlength="2" parsley-validation-minlength="1">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="comment" class="col-sm-4 control-label">备注</label>
+											<div class="col-sm-8">
+												<textarea class="form-control" id="comment" rows="3"
+													parsley-trigger="keyup" parsley-rangelength="[1,200]"
+													parsley-validation-minlength="1"></textarea>
+											</div>
+										</div>
+
+
+										<div class="form-group form-footer">
+											<div class="col-sm-offset-4 col-sm-8">
+												<button type="submit" class="btn btn-primary"
+													onclick="createNewPlot();return false;">提交</button>
+												<button type="reset" class="btn btn-warning">置空</button>
+											</div>
+										</div>
+
+
+									</form>
+
+
+								</div>
+								<!-- /tile body -->
+
+
+							</section>
+							<!-- /tile -->
+
+
+						</div>
+						<!-- /col 6 -->
+					</div>
+					<!-- /row -->
+
+
+				</div>
+				<!-- /content container -->
+
+
+			</div>
+			<!-- Page content end -->
+
+
+		</div>
+		<!-- Make page fluid-->
+
+
+	</div>
+	<!-- Wrap all page content end -->
+
+
+	<section class="videocontent" id="video"></section>
+
+
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="assets/js/jquery-1.12.4.min.js"></script>
+	<script src="assets/js/bootbox.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="assets/js/vendor/bootstrap/bootstrap.min.js"></script>
+	<script type="text/javascript"
+		src="assets/js/vendor/mmenu/js/jquery.mmenu.min.js"></script>
+	<script type="text/javascript"
+		src="assets/js/vendor/sparkline/jquery.sparkline.min.js"></script>
+	<script type="text/javascript"
+		src="assets/js/vendor/nicescroll/jquery.nicescroll.min.js"></script>
+	<script type="text/javascript"
+		src="assets/js/vendor/animate-numbers/jquery.animateNumbers.js"></script>
+	<script type="text/javascript"
+		src="assets/js/vendor/videobackground/jquery.videobackground.js"></script>
+	<script type="text/javascript"
+		src="assets/js/vendor/blockui/jquery.blockUI.js"></script>
+
+
+	<script src="assets/js/vendor/chosen/chosen.jquery.min.js"></script>
+
+
+	<script src="assets/js/vendor/parsley/parsley.min.js"></script>
+	<script type="text/javascript" src="assets/toastr/js/toastr.js"></script>
+
+
+	<script src="assets/js/minimal.min.js"></script>
+
+
+	<script>
+		toastr.options = {
+			positionClass : "toast-top-center",
+			timeOut : "1000"
+		}
+		var userInfo = null;
+
+		$.ajax({
+			type : "get",
+			url : "GetSession",
+			dataType : "json",
+			async : false,
+			success : function(data) {
+				if (data) {
+					userInfo = data;
+					if (data.right == 1) {
+						$("#hide1").hide();
+						$("#hide2").hide();
+						$("#hide3").hide();
+						$("#hide4").hide();
+					}
+					document.getElementById("userName").innerHTML = data.name;
+					//根据用户权限展现添加用户功能
+				} else {
+					window.location.href = "login.html";
+				}
+			}
+		});
+
+		function createUser() {
+			window.location.href = "createUser.html";
+		}
+		function createPlot() {
+			window.location.href = "createPlot.html";
+		}
+		function updatePwd() {
+			bootbox
+					.dialog({
+						title : "修改密码：",
+						closeButton : false,
+						animate : true,
+						locale : "zh-CN",
+						message : "<div class='form-group'>"
+								+ "<label for='password' class='col-sm-4 control-label text-right'>新密码    *</label>"
+								+ "<div class='col-sm-8'>"
+								+ "<input type='password' class='form-control' id='password' parsley-trigger='change' parsley-required='true' parsley-minlength='6'  parsley-validation-minlength='1'>"
+								+ "</div>"
+								+ "</div>"
+								+ "<div class='form-group'>"
+								+ "<label for='repassword' class='col-sm-4 control-label text-right'>确认新密码    *</label>"
+								+ "<div class='col-sm-8'>"
+								+ "<input type='password' class='form-control' id='repassword' parsley-trigger='change' parsley-required='true' parsley-minlength='6'  parsley-validation-minlength='1'>"
+								+ "</div>" + "</div>",
+						buttons : {
+							"success" : {
+								"label" : "确认",
+								"className" : "btn btn-danger btn-sm",
+								"callback" : function() {
+									//判断密码是否一致
+									var pwd = $("#password").val();
+									var repwd = $("#repassword").val();
+									var userName = userInfo.name;
+									if (pwd && repwd) {
+										if (pwd != repwd) {
+											toastr.error('重复密码错误！');
+											$("#repassword").val("");
+											return false;
+										} else {
+											$
+													.ajax({
+														type : "get",
+														url : "updatePwd",
+														dataType : "text",
+														data : {
+															'userName' : userName,
+															'userPwd' : pwd
+														},
+														async : false,
+														success : function(data) {
+															if (data) {
+																logOut();
+															} else {
+																console
+																		.log(data);
+																toastr
+																		.error('修改密码失败！');
+															}
+														},
+														error : function(data) {
+															console.log(data);
+															toastr
+																	.error('修改密码失败！');
+														}
+													});
+										}
+									} else {
+										toastr.error('密码不能为空！');
+										return false;
+									}
+								}
+							},
+							"cancel" : {
+								"label" : "取消",
+								"className" : "btn btn-success btn-sm",
+								"callback" : function() {
+
+								}
+							}
+						}
+					});
+		}
+		function logOut() {
+			$.get("LogOut", function() {
+				window.location.href = "login.html";
+			});
+
+		}
+
+		function createNewPlot() {
+			var plotName = $("#plotName").val();
+			var plotPlace = $("#plotPlace").val();
+			var comment = $("#comment").val();
+			if (plotName && plotPlace) {
+				$
+						.ajax({
+							type : "post",
+							url : "createPlot",
+							data : {
+								'plotName' : plotName,
+								'plotPlace' : plotPlace,
+								'comment' : comment
+							},
+							dataType : "text",
+							success : function(data) {
+								bootbox
+										.dialog({
+											title : "提示",
+											closeButton : false,
+											animate : true,
+											locale : "zh-CN",
+											message : "成功创建新的小区，赶快去管理吧~",
+											buttons : {
+												"success" : {
+													"label" : "确认",
+													"className" : "btn btn-success btn-sm",
+													"callback" : function() {
+														window.location.href = "datatable.html";
+													}
+												}
+											}
+										});
+
+							},
+							error : function(data) {
+								console.log(data);
+							}
+						});
+			} else {
+				bootbox.dialog({
+					title : "错误提示",
+					closeButton : false,
+					animate : true,
+					locale : "zh-CN",
+					message : "请检查带“*”信息是否完整！",
+					buttons : {
+						"success" : {
+							"label" : "确认",
+							"className" : "btn btn-danger btn-sm",
+							"callback" : function() {
+								return;
+							}
+						}
+					}
+				});
+			}
+		}
+	</script>
+</body>
+</html>

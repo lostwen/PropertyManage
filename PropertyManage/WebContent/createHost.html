@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<title>新建业主</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+
+
+
+
+<link rel="icon" type="image/ico" href="assets/images/favicon.ico" />
+<!-- <link href="assets/Foundation_Datepicker/css/foundation.min.css" rel="stylesheet"> -->
+<link href="assets/Foundation_Datepicker/css/foundation-datepicker.css"
+	rel="stylesheet">
+<!-- Bootstrap -->
+<link href="assets/bootstrap/css/bootstrap.css" rel="stylesheet">
+<link href="assets/font-awesome-4.7.0/css/font-awesome.css"
+	rel="stylesheet">
+<link rel="stylesheet" href="assets/css/vendor/animate/animate.css">
+<link type="text/css" rel="stylesheet" media="all"
+	href="assets/js/vendor/mmenu/css/jquery.mmenu.all.css" />
+<link rel="stylesheet"
+	href="assets/js/vendor/videobackground/css/jquery.videobackground.css">
+<link rel="stylesheet" href="assets/css/vendor/bootstrap-checkbox.css">
+
+
+
+
+<link rel="stylesheet" href="assets/js/vendor/chosen/css/chosen.min.css">
+<link rel="stylesheet"
+	href="assets/js/vendor/chosen/css/chosen-bootstrap.css">
+<link rel="stylesheet"
+	href="assets/js/vendor/datatables/css/dataTables.bootstrap.css">
+<link rel="stylesheet" href="assets/js/vendor/datatables/css/ColVis.css">
+<link rel="stylesheet"
+	href="assets/js/vendor/datatables/css/TableTools.css">
+
+
+<link rel="stylesheet" href="assets/toastr/css/toastr.css">
+<link href="assets/css/minimal.css" rel="stylesheet">
+
+
+
+
+<style type="text/css">
+#basicDataTable #tbody td {
+	text-align: center;
+}
+
+.pageheader .breadcrumbs {
+	left: 0;
+}
+
+#wrap #content .main {
+	margin: 20px 0px;
+}
+
+#clientInfo .tile-body {
+	max-height: 450px;
+	overflow-y: auto;
+}
+
+#clientInfo2 .tile-body {
+	max-height: 450px;
+	overflow-y: auto;
+}
+/* .form-horizontal .form-group {
+       margin-right: 0px;
+    margin-left: 0px;
+    } */
+body #content .tile.transparent-black .form-control[disabled] {
+	background-color: rgba(255, 255, 255, 0.1);
+	border: 0;
+	color: #FFF;
+}
+
+.radio label:before {
+	bottom: 3px;
+}
+
+div.modal-body div {
+	overflow: hidden;
+}
+</style>
+
+
+
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body class="bg-3">
+	<!-- Preloader -->
+	<div class="mask">
+		<div id="loader"></div>
+	</div>
+	<!--/Preloader -->
+	<!-- Wrap all page content here -->
+	<div id="wrap">
+		<!-- Make page fluid -->
+		<div class="row">
+			<!-- Fixed navbar -->
+			<div
+				class="navbar navbar-default navbar-fixed-top navbar-transparent-black mm-fixed-top"
+				role="navigation" id="navbar">
+				<!-- Branding -->
+				<div class="navbar-header col-md-2">
+					<a class="navbar-brand" href="datatable.html"> <strong>物业管理</strong>
+					</a>
+					<div class="sidebar-collapse">
+						<a href="#"> <i class="fa fa-bars"></i>
+						</a>
+					</div>
+				</div>
+				<!-- Branding end -->
+				<!-- .nav-collapse -->
+				<div class="navbar-collapse">
+					<!-- Quick Actions -->
+					<ul class="nav navbar-nav quick-actions">
+
+
+						<li class="dropdown user" id="current-user"><a
+							class="dropdown-toggle options" data-toggle="dropdown" href="#">
+								<i class="fa fa-user"></i> <span id="userName"></span> <i
+								class="fa fa-caret-down"></i>
+						</a>
+							<ul class="dropdown-menu arrow settings pull-right">
+								<li>
+									<h3>背景色:</h3>
+									<ul id="color-schemes">
+										<li><a href="#" class="bg-1"></a></li>
+										<li><a href="#" class="bg-2"></a></li>
+										<li><a href="#" class="bg-3"></a></li>
+										<li><a href="#" class="bg-4"></a></li>
+										<li><a href="#" class="bg-5"></a></li>
+										<li><a href="#" class="bg-6"></a></li>
+									</ul>
+								</li>
+								<li class="divider"></li>
+								<li id="hide1"><a href="javascript:createUser();"><i
+										class="fa fa-user"></i> 新建管理员</a></li>
+								<li id="hide2" class="divider"></li>
+								<li><a href="javascript:updatePwd();"><i
+										class="fa fa-key"></i> 修改密码</a></li>
+								<li class="divider"></li>
+								<li><a href="javascript:logOut();"><i
+										class="fa fa-power-off"></i> 退出</a></li>
+							</ul></li>
+						<li><a href="#mmenu"></a></li>
+					</ul>
+					<!-- /Quick Actions -->
+					<!-- Sidebar -->
+					<ul class="nav navbar-nav side-nav" id="sidebar">
+						<li class="collapsed-content">
+							<ul>
+								<li class="search">
+									<!-- Collapsed search pasting here at 768px -->
+								</li>
+							</ul>
+						</li>
+						<li class="navigation" id="navigation"><a href="#"
+							class="sidebar-toggle" data-toggle="#navigation">新增记录 <i
+								class="fa fa-angle-up"></i>
+						</a>
+							<ul class="menu">
+								<li><a href="createHost.html"> <i class="fa fa-table"></i>
+										业主信息
+								</a></li>
+								<!-- <li><a href="#"> <i class="fa fa-list"></i>
+车位信息
+</a></li>
+<li><a href="#"> <i class="fa fa-pencil"></i>
+维修记录
+</a></li>
+<li><a href="#"> <i class="fa fa-tint"></i>
+装修记录
+</a></li>
+<li><a href="#"> <i class="fa fa-th"></i>
+好人好事
+</a></li> -->
+
+
+
+
+
+
+							</ul></li>
+						<li class="navigation" id="navigation2"><a href="#"
+							class="sidebar-toggle" data-toggle="#navigation2">筛选查看 <i
+								class="fa fa-angle-up"></i>
+						</a>
+							<ul class="menu">
+
+
+								<li id="allArea" class="dropdown open"><a href="#"
+									class="dropdown-toggle" data-toggle="dropdown"> <i
+										class="fa fa-list"></i> 查看各小区 <b
+										class="fa fa-plus dropdown-plus"></b>
+								</a>
+									<ul class="dropdown-menu">
+										<li><a href="javascript:getProperty(1);"> <i
+												class="fa fa-caret-right"></i> 富川瑞园
+										</a></li>
+										<li><a href="javascript:getProperty(2);"> <i
+												class="fa fa-caret-right"></i> 雅苑
+										</a></li>
+										<li><a href="javascript:getProperty(3);"> <i
+												class="fa fa-caret-right"></i> 鸿锦花园
+										</a></li>
+										<li><a href="javascript:getProperty(4);"> <i
+												class="fa fa-caret-right"></i> 壹号公馆
+										</a></li>
+										<li><a href="javascript:getProperty(5);"> <i
+												class="fa fa-caret-right"></i> 鸿大花园
+										</a></li>
+										<li><a href="javascript:getProperty(6);"> <i
+												class="fa fa-caret-right"></i> 鸿泰家园
+										</a></li>
+										<li><a href="javascript:getProperty(7);"> <i
+												class="fa fa-caret-right"></i> 宝带新村
+										</a></li>
+										<li><a href="javascript:getProperty(8);"> <i
+												class="fa fa-caret-right"></i> 大唐新寓
+										</a></li>
+										<li><a href="javascript:getProperty(9);"> <i
+												class="fa fa-caret-right"></i> 水岸华城
+										</a></li>
+									</ul></li>
+
+
+
+
+								<li><a href="javascript:getClientInfo();"> <i
+										class="fa fa-tasks"></i> 业主信息
+								</a></li>
+								<li><a href="javascript:getCarInfo();"> <i
+										class="fa fa-car"></i> 车位信息
+								</a></li>
+								<li><a href="javascript:getFixInfo();"> <i
+										class="fa fa-wrench"></i> 维修记录
+								</a></li>
+								<li><a href="javascript:getDecoInfo();"> <i
+										class="fa fa-magic"></i> 装修记录
+								</a></li>
+								<li><a href="javascript:getGoodInfo();"> <i
+										class="fa fa-star-o"></i> 好人好事
+								</a></li>
+								<!-- <li><a href="#"> <i class="fa fa-desktop"></i>
+物业欠费
+</a></li> -->
+
+
+							</ul></li>
+					</ul>
+					<!-- Sidebar end -->
+				</div>
+				<!--/.nav-collapse -->
+			</div>
+			<!-- Fixed navbar end -->
+			<!-- Page content -->
+			<div id="content" class="col-md-12">
+				<!-- page header -->
+
+
+				<!-- /page header -->
+				<!-- content main container -->
+				<div class="main">
+					<!-- row -->
+					<div class="row">
+						<!-- col 12 -->
+						<div class="col-md-12">
+							<!-- tile -->
+
+
+
+
+							<section class="tile color transparent-black" style="display:;"
+								id="clientInfo2">
+								<!-- tile header -->
+								<div class="tile-header">
+									<h1>新增业主信息：</h1>
+								</div>
+								<!-- /tile header -->
+								<!-- tile body -->
+								<div class="tile-body" id="baseInfo2">
+									<form class="form-horizontal" role="form">
+										<div class="form-group">
+											<label for="hostName2" class="col-sm-3 control-label">业主
+												*</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="hostName2"
+													placeholder="">
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="buildNum2" class="col-sm-3 control-label">幢号
+												*</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="buildNum2">
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="roomNum2" class="col-sm-3 control-label">室号
+												*</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="roomNum2">
+												<!-- <span class="help-block">A block of help text that breaks onto a new line and may extend beyond one line.</span> -->
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="area2" class="col-sm-3 control-label">建筑面积
+												*</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="area2">
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="receiveDate2" class="col-sm-3 control-label">领房时间
+												*</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="receiveDate2"
+													placeholder="YYYY-MM-DD">
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="phone2" class="col-sm-3 control-label">联系电话
+												*</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="phone2">
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="sex2" class="col-sm-3 control-label">性别 *</label>
+											<div class="col-sm-7 radio radio-transparent">
+												<!-- <input type="text" class="form-control" id="sex2"> -->
+												<input type="radio" name="sex2" id="optionsRadios1"
+													value="0" checked="checked"> <label
+													for="optionsRadios1">男</label> <input type="radio"
+													name="sex2" id="optionsRadios2" value="1" checked="">
+												<label for="optionsRadios2">女</label>
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="age2" class="col-sm-3 control-label">出生年份
+												*</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="age2"
+													placeholder="YYYY">
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="userId" class="col-sm-3 control-label">身份证号</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="userId">
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="nation2" class="col-sm-3 control-label">民族</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="nation2">
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="marriage2" class="col-sm-3 control-label">婚姻状况
+												*</label>
+											<div class="col-sm-7 radio radio-transparent">
+												<input type="radio" name="marriage2" id="optionsRadios3"
+													value="0" checked="checked"> <label
+													for="optionsRadios3">未婚</label> <input type="radio"
+													name="marriage2" id="optionsRadios4" value="1"> <label
+													for="optionsRadios4">已婚</label>
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="family2" class="col-sm-3 control-label">家庭成员</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="family2">
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="company2" class="col-sm-3 control-label">工作单位</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="company2">
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="propertyCost2" class="col-sm-3 control-label">物业费
+												*</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="propertyCost2">
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="serviceCost2" class="col-sm-3 control-label">公共服务费
+												*</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="serviceCost2">
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="energyCost2" class="col-sm-3 control-label">公共能耗费
+												*</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="energyCost2">
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="liftCost2" class="col-sm-3 control-label">电梯运营费
+												*</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="liftCost2">
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="supposedPay2" class="col-sm-3 control-label">应收费用
+												*</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="supposedPay2">
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="lastDate2" class="col-sm-3 control-label">上次缴费日期
+												*</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="lastDate2"
+													placeholder="YYYY-MM-DD">
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="propertyDate2" class="col-sm-3 control-label">物业费到期日期
+												*</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="propertyDate2"
+													placeholder="YYYY-MM-DD">
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="realPay2" class="col-sm-3 control-label">实收费用
+												*</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="realPay2">
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="comment2" class="col-sm-3 control-label">备注</label>
+											<div class="col-sm-7">
+												<textarea class="form-control" id="comment2" rows="6"></textarea>
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<input type="hidden" id="hostId">
+										<div class="form-group form-footer footer-white">
+											<div class="col-sm-offset-5 col-sm-7">
+												<button type="button" class="btn btn-greensea"
+													onclick="createBaseInfo();">创建</button>
+												&nbsp;&nbsp;&nbsp;
+												<button type="button" class="btn btn-red"
+													onclick="goBack2();">返回</button>
+											</div>
+										</div>
+									</form>
+								</div>
+								<!-- /tile body -->
+							</section>
+
+
+						</div>
+						<!-- /col 12 -->
+					</div>
+					<!-- /row -->
+				</div>
+				<!-- /content container -->
+			</div>
+			<!-- Page content end -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		</div>
+		<!-- Make page fluid-->
+	</div>
+	<!-- Wrap all page content end -->
+	<section class="videocontent" id="video"></section>
+
+
+
+
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="assets/js/jquery-1.12.4.min.js"></script>
+	<script src="assets/js/bootbox.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="assets/js/vendor/bootstrap/bootstrap.min.js"></script>
+	<!-- <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css&skin=sons-of-obsidian"></script> -->
+	<script src="assets/js/vendor/mmenu/js/jquery.mmenu.min.js"></script>
+	<script src="assets/js/vendor/sparkline/jquery.sparkline.min.js"></script>
+	<script src="assets/js/vendor/nicescroll/jquery.nicescroll.min.js"></script>
+	<script src="assets/js/vendor/animate-numbers/jquery.animateNumbers.js"></script>
+	<script
+		src="assets/js/vendor/videobackground/jquery.videobackground.js"></script>
+	<script src="assets/js/vendor/blockui/jquery.blockUI.js"></script>
+
+
+	<script src="assets/js/vendor/datatables/jquery.dataTables.min.js"></script>
+	<script src="assets/js/vendor/datatables/ColReorderWithResize.js"></script>
+	<script
+		src="assets/js/vendor/datatables/colvis/dataTables.colVis.min.js"></script>
+	<script src="assets/js/vendor/datatables/tabletools/ZeroClipboard.js"></script>
+	<script
+		src="assets/js/vendor/datatables/tabletools/dataTables.tableTools.min.js"></script>
+	<script src="assets/js/vendor/datatables/dataTables.bootstrap.js"></script>
+
+
+
+
+	<script src="assets/js/vendor/chosen/chosen.jquery.min.js"></script>
+
+
+	<script type="text/javascript" src="assets/toastr/js/toastr.js"></script>
+	<script src="assets/js/minimal.min.js"></script>
+	<script src="assets/Foundation_Datepicker/js/foundation-datepicker.js"></script>
+	<script
+		src="assets/Foundation_Datepicker/js/locales/foundation-datepicker.zh-CN.js"></script>
+	<script type="text/javascript">
+		toastr.options = {
+			positionClass : "toast-top-center",
+			timeOut : "1000"
+		}
+
+		$('#receiveDate2').fdatepicker({
+			format : 'yyyy-mm-dd'
+		});
+		$('#lastDate2').fdatepicker({
+			format : 'yyyy-mm-dd'
+		});
+		$('#propertyDate2').fdatepicker({
+			format : 'yyyy-mm-dd'
+		});
+
+		toastr.options = {
+			positionClass : "toast-top-center",
+			timeOut : "1000"
+		}
+		$("#clientInfo2 .tile-body").niceScroll({
+			cursorborder : "1px solid #565056",
+			cursoropacitymax : 0.4,
+			cursorwidth : "8px"
+		});
+		$("#clientInfo2 .tile-body").getNiceScroll().hide();
+
+		var userInfo = null;
+		var clientInfo = null;
+		var area = 0;
+		$.ajax({
+			type : "get",
+			url : "GetSession",
+			dataType : "json",
+			async : false,
+			success : function(data) {
+				if (data) {
+					userInfo = data;
+					area = data.area;
+					if (data.right == 1) {
+						$("#hide1").hide();
+						$("#hide2").hide();
+						$("#allArea").hide();
+					}
+					if (data.right == 0) {
+						$("#navigation").hide();
+					}
+
+					document.getElementById("userName").innerHTML = data.name;
+					//根据用户权限展现添加用户功能
+				} else {
+					window.location.href = "login.html";
+				}
+			}
+		});
+
+		function createUser() {
+			window.location.href = "createUser.html";
+		}
+		function updatePwd() {
+			bootbox
+					.dialog({
+						title : "修改密码：",
+						closeButton : false,
+						animate : true,
+						locale : "zh-CN",
+						message : "<div class='form-group'>"
+								+ "<label for='password' class='col-sm-4 control-label text-right'>新密码    *</label>"
+								+ "<div class='col-sm-8'>"
+								+ "<input type='password' class='form-control' id='password' parsley-trigger='change' parsley-required='true' parsley-minlength='6'  parsley-validation-minlength='1'>"
+								+ "</div>"
+								+ "</div>"
+								+ "<div class='form-group'>"
+								+ "<label for='repassword' class='col-sm-4 control-label text-right'>确认新密码    *</label>"
+								+ "<div class='col-sm-8'>"
+								+ "<input type='password' class='form-control' id='repassword' parsley-trigger='change' parsley-required='true' parsley-minlength='6'  parsley-validation-minlength='1'>"
+								+ "</div>" + "</div>",
+						buttons : {
+							"success" : {
+								"label" : "确认",
+								"className" : "btn btn-danger btn-sm",
+								"callback" : function() {
+									//判断密码是否一致
+									var pwd = $("#password").val();
+									var repwd = $("#repassword").val();
+									var userName = userInfo.name;
+									if (pwd && repwd) {
+										if (pwd != repwd) {
+											toastr.error('重复密码错误！');
+											$("#repassword").val("");
+											return false;
+										} else {
+											$
+													.ajax({
+														type : "get",
+														url : "updatePwd",
+														dataType : "text",
+														data : {
+															'userName' : userName,
+															'userPwd' : pwd
+														},
+														async : false,
+														success : function(data) {
+															if (data) {
+																logOut();
+															} else {
+																console
+																		.log(data);
+																toastr
+																		.error('修改密码失败！');
+															}
+														},
+														error : function(data) {
+															console.log(data);
+															toastr
+																	.error('修改密码失败！');
+														}
+													});
+										}
+									} else {
+										toastr.error('密码不能为空！');
+										return false;
+									}
+								}
+							},
+							"cancel" : {
+								"label" : "取消",
+								"className" : "btn btn-success btn-sm",
+								"callback" : function() {
+
+								}
+							}
+						}
+					});
+		}
+		function logOut() {
+			$.get("LogOut", function() {
+				window.location.href = "login.html";
+			});
+
+		}
+
+		function getCarInfo() {
+			window.location.href = "cartable.html";
+		}
+		function getClientInfo() {
+			window.location.href = "datatable.html";
+		}
+		function getFixInfo() {
+			window.location.href = "fixtable.html";
+		}
+		function getDecoInfo() {
+			window.location.href = "decotable.html";
+		}
+		function getGoodInfo() {
+			window.location.href = "goodtable.html";
+		}
+
+		function createBaseInfo() {
+			var hostName = $("#hostName2").val();
+			var buildNum = $("#buildNum2").val();
+			var roomNum = $("#roomNum2").val();
+			var roomArea = $("#area2").val();
+			var receiveDate = $("#receiveDate2").val();
+			var phone = $("#phone2").val();
+			var sex = $("input[name='sex2']:checked").val();
+			var age = $("#age2").val();
+			var userId = $("#userId").val();
+			var nation = $("#nation2").val();
+			var marriage = $("input[name='marriage2']:checked").val();
+			var family = $("#family2").val();
+			var company = $("#company2").val();
+			var propertyCost = $("#propertyCost2").val();
+			var serviceCost = $("#serviceCost2").val();
+			var energyCost = $("#energyCost2").val();
+			var liftCost = $("#liftCost2").val();
+			var supposedPay = $("#supposedPay2").val();
+			var lastDate = $("#lastDate2").val();
+			var propertyDate = $("#propertyDate2").val();
+			var realPay = $("#realPay2").val();
+			var comment = $("#comment2").val();
+			if (hostName && buildNum && roomNum && area && receiveDate && phone
+					&& sex && age && marriage && propertyCost && serviceCost
+					&& energyCost && liftCost && supposedPay && lastDate
+					&& propertyDate && realPay) {
+				$.ajax({
+					type : "post",
+					url : "createBaseInfo",
+					data : {
+						'hostName' : hostName,
+						'buildNum' : buildNum,
+						'roomNum' : roomNum,
+						'area' : roomArea,
+						'receiveDate' : receiveDate,
+						'phone' : phone,
+						'sex' : sex,
+						'age' : age,
+						'userId' : userId,
+						'nation' : nation,
+						'marriage' : marriage,
+						'family' : family,
+						'company' : company,
+						'propertyCost' : propertyCost,
+						'serviceCost' : serviceCost,
+						'energyCost' : energyCost,
+						'liftCost' : liftCost,
+						'supposedPay' : supposedPay,
+						'lastDate' : lastDate,
+						'propertyDate' : propertyDate,
+						'realPay' : realPay,
+						'comment' : comment,
+						'areaId' : area
+					},
+					dataType : "text",
+					success : function(data) {
+						if (data) {
+							bootbox.dialog({
+								title : "提示",
+								closeButton : false,
+								animate : true,
+								locale : "zh-CN",
+								message : "新建成功！",
+								buttons : {
+									"success" : {
+										"label" : "确认",
+										"className" : "btn btn-success btn-sm",
+										"callback" : function() {
+											goBack2();
+										}
+									}
+								}
+							});
+							//toastr.success('新建成功！');
+							//goBack2();
+							//getProperty(area);
+						} else {
+							bootbox.dialog({
+								title : "提示",
+								closeButton : false,
+								animate : true,
+								locale : "zh-CN",
+								message : "新建失败！",
+								buttons : {
+									"success" : {
+										"label" : "确认",
+										"className" : "btn btn-success btn-sm",
+										"callback" : function() {
+
+										}
+									}
+								}
+							});
+							//toastr.error('新建失败！');
+							//goBack2();
+						}
+					},
+					error : function(data) {
+						console.log(data);
+					}
+				});
+			} else {
+				bootbox.dialog({
+					title : "提示",
+					closeButton : false,
+					animate : true,
+					locale : "zh-CN",
+					message : "请检查带“*”信息是否完整！",
+					buttons : {
+						"success" : {
+							"label" : "确认",
+							"className" : "btn btn-success btn-sm",
+							"callback" : function() {
+
+							}
+						}
+					}
+				});
+			}
+		}
+
+		function goBack2() {
+			window.location.href = "datatable.html";
+		}
+	</script>
+
+
+</body>
+</html>

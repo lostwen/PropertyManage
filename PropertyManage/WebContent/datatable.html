@@ -1,0 +1,1696 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<title>业主信息统计表</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+
+
+
+
+<link rel="icon" type="image/ico" href="assets/images/favicon.ico" />
+<link href="assets/Foundation_Datepicker/css/foundation-datepicker.css"
+	rel="stylesheet">
+<!-- Bootstrap -->
+<link href="assets/bootstrap/css/bootstrap.css" rel="stylesheet">
+<link href="assets/font-awesome-4.7.0/css/font-awesome.css"
+	rel="stylesheet">
+<link rel="stylesheet" href="assets/css/vendor/animate/animate.css">
+<link type="text/css" rel="stylesheet" media="all"
+	href="assets/js/vendor/mmenu/css/jquery.mmenu.all.css" />
+<link rel="stylesheet"
+	href="assets/js/vendor/videobackground/css/jquery.videobackground.css">
+<link rel="stylesheet" href="assets/css/vendor/bootstrap-checkbox.css">
+
+
+
+
+<link rel="stylesheet" href="assets/js/vendor/chosen/css/chosen.min.css">
+<link rel="stylesheet"
+	href="assets/js/vendor/chosen/css/chosen-bootstrap.css">
+<link rel="stylesheet"
+	href="assets/js/vendor/datatables/css/dataTables.bootstrap.css">
+<link rel="stylesheet" href="assets/js/vendor/datatables/css/ColVis.css">
+<link rel="stylesheet"
+	href="assets/js/vendor/datatables/css/TableTools.css">
+
+
+<link rel="stylesheet" href="assets/toastr/css/toastr.css">
+<link href="assets/css/minimal.css" rel="stylesheet">
+
+
+
+
+<style type="text/css">
+#basicDataTable #tbody td {
+	text-align: center;
+}
+
+.pageheader .breadcrumbs {
+	left: 0;
+}
+
+#wrap #content .main {
+	margin: 20px 0px;
+}
+
+#clientInfo .tile-body {
+	max-height: 450px;
+	overflow-y: auto;
+}
+
+#clientInfo2 .tile-body {
+	max-height: 450px;
+	overflow-y: auto;
+}
+/* .form-horizontal .form-group {
+       margin-right: 0px;
+    margin-left: 0px;
+    } */
+body #content .tile.transparent-black .form-control[disabled] {
+	background-color: rgba(255, 255, 255, 0.1);
+	border: 0;
+	color: #FFF;
+}
+
+.radio label:before {
+	bottom: 3px;
+}
+
+div.modal-body div {
+	overflow: hidden;
+}
+</style>
+
+
+
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body class="bg-3">
+	<!-- Preloader -->
+	<div class="mask">
+		<div id="loader"></div>
+	</div>
+	<!--/Preloader -->
+	<!-- Wrap all page content here -->
+	<div id="wrap">
+		<!-- Make page fluid -->
+		<div class="row">
+			<!-- Fixed navbar -->
+			<div
+				class="navbar navbar-default navbar-fixed-top navbar-transparent-black mm-fixed-top"
+				role="navigation" id="navbar">
+				<!-- Branding -->
+				<div class="navbar-header col-md-2">
+					<a class="navbar-brand" href="datatable.html"> <strong>物业管理</strong>
+					</a>
+					<div class="sidebar-collapse">
+						<a href="#"> <i class="fa fa-bars"></i>
+						</a>
+					</div>
+				</div>
+				<!-- Branding end -->
+				<!-- .nav-collapse -->
+				<div class="navbar-collapse">
+					<!-- Quick Actions -->
+					<ul class="nav navbar-nav quick-actions">
+
+
+						<li class="dropdown user" id="current-user"><a
+							class="dropdown-toggle options" data-toggle="dropdown" href="#">
+								<i class="fa fa-user"></i> <span id="userName"></span> <i
+								class="fa fa-caret-down"></i>
+						</a>
+							<ul class="dropdown-menu arrow settings pull-right">
+								<li>
+									<h3>背景色:</h3>
+									<ul id="color-schemes">
+										<li><a href="#" class="bg-1"></a></li>
+										<li><a href="#" class="bg-2"></a></li>
+										<li><a href="#" class="bg-3"></a></li>
+										<li><a href="#" class="bg-4"></a></li>
+										<li><a href="#" class="bg-5"></a></li>
+										<li><a href="#" class="bg-6"></a></li>
+									</ul>
+								</li>
+								<li class="divider"></li>
+								<li id="hide1"><a href="javascript:createUser();"><i
+										class="fa fa-user"></i> 新建管理员</a></li>
+								<li id="hide2" class="divider"></li>
+								<li id="hide3"><a href="javascript:createPlot();"><i
+										class="fa fa-home"></i> 添加新小区</a></li>
+								<li id="hide4" class="divider"></li>
+								<li><a href="javascript:updatePwd();"><i
+										class="fa fa-key"></i> 修改密码</a></li>
+								<li class="divider"></li>
+								<li><a href="javascript:logOut();"><i
+										class="fa fa-power-off"></i> 退出</a></li>
+							</ul></li>
+						<li><a href="#mmenu"></a></li>
+					</ul>
+					<!-- /Quick Actions -->
+					<!-- Sidebar -->
+					<ul class="nav navbar-nav side-nav" id="sidebar">
+						<li class="collapsed-content">
+							<ul>
+								<li class="search">
+									<!-- Collapsed search pasting here at 768px -->
+								</li>
+							</ul>
+						</li>
+						<li class="navigation collapsed" id="navigation"><a href="#"
+							class="sidebar-toggle" data-toggle="#navigation">新增记录 <i
+								class="fa fa-angle-up"></i>
+						</a>
+							<ul class="menu">
+								<li><a href="createHost.html"> <i class="fa fa-table"></i>
+										业主信息
+								</a></li>
+								<li id="car" style="display: none;"><a
+									href="javascript:addCar();"> <i class="fa fa-list"></i>
+										车位信息
+								</a></li>
+								<li id="fix" style="display: none;"><a
+									href="javascript:addFix();"> <i class="fa fa-pencil"></i>
+										维修记录
+								</a></li>
+								<li id="deco" style="display: none;"><a
+									href="javascript:addDeco();"> <i class="fa fa-tint"></i>
+										装修记录
+								</a></li>
+								<li id="good" style="display: none;"><a
+									href="javascript:addGood();"> <i class="fa fa-th"></i> 好人好事
+								</a></li>
+
+
+
+
+
+
+							</ul></li>
+						<li class="navigation" id="navigation3">
+							<ul class="menu">
+								<li id="allArea" class="dropdown open"><a href="#"
+									class="dropdown-toggle" data-toggle="dropdown"> <i
+										class="fa fa-list"></i> 查看各小区 <b
+										class="fa fa-plus dropdown-plus"></b>
+								</a>
+									<ul id="plotList" class="dropdown-menu">
+
+
+									</ul></li>
+							</ul>
+						</li>
+						<li class="navigation" id="navigation2"><a href="#"
+							class="sidebar-toggle" data-toggle="#navigation2">筛选查看 <i
+								class="fa fa-angle-up"></i>
+						</a>
+							<ul class="menu">
+
+
+
+
+
+
+
+
+								<li><a href="javascript:getClientInfo();"> <i
+										class="fa fa-tasks"></i> 业主信息
+								</a></li>
+								<li><a href="javascript:getCarInfo();"> <i
+										class="fa fa-car"></i> 车位信息
+								</a></li>
+								<li><a href="javascript:getFixInfo();"> <i
+										class="fa fa-wrench"></i> 维修记录
+								</a></li>
+								<li><a href="javascript:getDecoInfo();"> <i
+										class="fa fa-magic"></i> 装修记录
+								</a></li>
+								<li><a href="javascript:getGoodInfo();"> <i
+										class="fa fa-star-o"></i> 好人好事
+								</a></li>
+
+
+								<!-- <li><a href="#"> <i class="fa fa-desktop"></i>
+物业欠费
+</a></li> -->
+
+
+							</ul></li>
+					</ul>
+					<!-- Sidebar end -->
+				</div>
+				<!--/.nav-collapse -->
+			</div>
+			<!-- Fixed navbar end -->
+			<!-- Page content -->
+			<div id="content" class="col-md-12">
+				<!-- page header -->
+
+
+				<!-- /page header -->
+				<!-- content main container -->
+				<div class="main">
+					<!-- row -->
+					<div class="row">
+						<!-- col 12 -->
+						<div class="col-md-12">
+							<!-- tile -->
+							<section class="tile transparent" style="display: block;"
+								id="overview">
+								<!-- tile header -->
+								<div class="tile-header transparent">
+									<h1>
+										<strong id="areaTitle"></strong>（业主信息）
+									</h1>
+								</div>
+								<!-- /tile header -->
+								<!-- tile body -->
+								<div class="tile-body color transparent-black rounded-corners">
+									<div class="table-responsive">
+										<table class="table table-datatable table-custom"
+											id="basicDataTable">
+											<thead>
+												<tr>
+													<th class="sort-amount">幢号</th>
+													<th class="sort-amount">室号</th>
+													<th class="sort-alpha">业主姓名</th>
+													<th class="sort-amount">联系电话</th>
+													<th class="sort-amount">领房时间</th>
+													<th class="sort-numeric">物业费</th>
+													<th class="sort-numeric">应收费用</th>
+													<th class="sort-amount">物业费到期日期</th>
+													<th class="sort-numeric">实收费用</th>
+													<th class="sort-numeric">车辆信息</th>
+												</tr>
+											</thead>
+											<tbody id="tbody"></tbody>
+										</table>
+									</div>
+								</div>
+								<!-- /tile body -->
+							</section>
+							<!-- /tile -->
+							<section class="tile color transparent-black"
+								style="display: none;" id="clientInfo">
+								<!-- tile header -->
+								<div class="tile-header">
+									<h1>业主详情：</h1>
+								</div>
+								<!-- /tile header -->
+								<!-- tile body -->
+								<div class="tile-body" id="baseInfo">
+									<form class="form-horizontal" role="form">
+										<div class="form-group">
+											<label for="hostName" class="col-sm-3 control-label">业主</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="hostName"
+													disabled>
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="buildNum" class="col-sm-3 control-label">幢号</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="buildNum"
+													disabled>
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="roomNum" class="col-sm-3 control-label">室号</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="roomNum"
+													disabled>
+												<!-- <span class="help-block">A block of help text that breaks onto a new line and may extend beyond one line.</span> -->
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="area" class="col-sm-3 control-label">建筑面积</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="area" disabled>
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="receiveDate" class="col-sm-3 control-label">领房时间</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="receiveDate"
+													disabled>
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="phone" class="col-sm-3 control-label">联系电话</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="phone">
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="sex" class="col-sm-3 control-label">性别</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="sex" disabled>
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="age" class="col-sm-3 control-label">出生年份</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="age" disabled>
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="nation" class="col-sm-3 control-label">民族</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="nation" disabled>
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="marriage" class="col-sm-3 control-label">婚姻状况</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="marriage">
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="family" class="col-sm-3 control-label">家庭成员</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="family">
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="company" class="col-sm-3 control-label">工作单位</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="company">
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="propertyCost" class="col-sm-3 control-label">物业费</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="propertyCost">
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="serviceCost" class="col-sm-3 control-label">公共服务费</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="serviceCost">
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="energyCost" class="col-sm-3 control-label">公共能耗费</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="energyCost">
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="liftCost" class="col-sm-3 control-label">电梯运营费</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="liftCost">
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="supposedPay" class="col-sm-3 control-label">应收费用</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="supposedPay">
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="lastDate" class="col-sm-3 control-label">上次缴费日期</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="lastDate">
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="propertyDate" class="col-sm-3 control-label">物业费到期日期</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="propertyDate">
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="realPay" class="col-sm-3 control-label">实收费用</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="realPay">
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="comment" class="col-sm-3 control-label">备注</label>
+											<div class="col-sm-7">
+												<textarea class="form-control" id="comment" rows="6"></textarea>
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<input type="hidden" id="hostId">
+										<div class="form-group form-footer footer-white">
+											<div class="col-sm-offset-5 col-sm-7">
+												<button type="button" class="btn btn-greensea"
+													onclick="updateBaseInfo();">修改</button>
+												&nbsp;&nbsp;&nbsp;
+												<button type="button" class="btn btn-red"
+													onclick="goBack();">返回</button>
+											</div>
+										</div>
+									</form>
+								</div>
+								<!-- /tile body -->
+							</section>
+
+
+
+
+							<section class="tile color transparent-black addMode"
+								style="display: none;" id="carInfo">
+								<!-- tile header -->
+								<div class="tile-header">
+									<h1>新增车位信息：</h1>
+								</div>
+								<!-- /tile header -->
+								<!-- tile body -->
+								<div class="tile-body">
+									<form class="form-horizontal" role="form">
+										<div class="form-group">
+											<label for="carHost" class="col-sm-3 control-label">车主</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="carHost"
+													disabled>
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="carNum" class="col-sm-3 control-label">车牌号</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="carNum">
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="carPlace" class="col-sm-3 control-label">停车位</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="carPlace">
+												<!-- <span class="help-block">A block of help text that breaks onto a new line and may extend beyond one line.</span> -->
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="carState" class="col-sm-3 control-label">车位状况</label>
+											<div class="col-sm-7 radio radio-transparent">
+												<input type="radio" name="carState" id="carState1" value="0"
+													checked="checked"> <label for="carState1">买</label>
+												<input type="radio" name="carState" id="carState2" value="1">
+												<label for="carState2">租</label>
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="startTime" class="col-sm-3 control-label">车位领用日期</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="startTime">
+												<span class="help-block">日期格式：yyyy-mm-dd</span>
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="lastTime" class="col-sm-3 control-label">缴费日期</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="lastTime">
+												<span class="help-block">日期格式：yyyy-mm-dd</span>
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="endTime" class="col-sm-3 control-label">停车费到期日期</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="endTime">
+												<span class="help-block">日期格式：yyyy-mm-dd</span>
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+
+
+										<div class="form-group form-footer footer-white">
+											<div class="col-sm-offset-5 col-sm-7">
+												<button type="button" class="btn btn-greensea"
+													onclick="createCarInfo();">新增</button>
+												&nbsp;&nbsp;&nbsp;
+												<button type="button" class="btn btn-red"
+													onclick="carGoBack();">返回</button>
+											</div>
+										</div>
+									</form>
+								</div>
+								<!-- /tile body -->
+							</section>
+
+
+							<section class="tile color transparent-black addMode"
+								style="display: none;" id="fixInfo">
+								<!-- tile header -->
+								<div class="tile-header">
+									<h1>新增维修记录：</h1>
+								</div>
+								<!-- /tile header -->
+								<!-- tile body -->
+								<div class="tile-body">
+									<form class="form-horizontal" role="form">
+										<div class="form-group">
+											<label for="fixHost" class="col-sm-3 control-label">报修业主</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="fixHost"
+													disabled>
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="fixMatter" class="col-sm-3 control-label">报修事项</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="fixMatter">
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="fixPerson" class="col-sm-3 control-label">处理人</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="fixPerson">
+												<!-- <span class="help-block">A block of help text that breaks onto a new line and may extend beyond one line.</span> -->
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="fixFeedBack" class="col-sm-3 control-label">处理反馈</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="fixFeedBack">
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+
+
+										<div class="form-group form-footer footer-white">
+											<div class="col-sm-offset-5 col-sm-7">
+												<button type="button" class="btn btn-greensea"
+													onclick="createFixInfo();">新增</button>
+												&nbsp;&nbsp;&nbsp;
+												<button type="button" class="btn btn-red"
+													onclick="fixGoBack();">返回</button>
+											</div>
+										</div>
+									</form>
+								</div>
+								<!-- /tile body -->
+							</section>
+
+
+							<section class="tile color transparent-black addMode"
+								style="display: none;" id="decoInfo">
+								<!-- tile header -->
+								<div class="tile-header">
+									<h1>新增装修记录：</h1>
+								</div>
+								<!-- /tile header -->
+								<!-- tile body -->
+								<div class="tile-body">
+									<form class="form-horizontal" role="form">
+										<div class="form-group">
+											<label for="decoHost" class="col-sm-3 control-label">装修业主</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="decoHost"
+													disabled>
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="decoProcedure" class="col-sm-3 control-label">装修手续</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="decoProcedure">
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="decoIllegal" class="col-sm-3 control-label">装修违规操作</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="decoIllegal">
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="decoPatrol" class="col-sm-3 control-label">物业巡查记录</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="decoPatrol">
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="decoPledge" class="col-sm-3 control-label">装修押金</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="decoPledge">
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="decoPledgeReturn" class="col-sm-3 control-label">退还押金</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control"
+													id="decoPledgeReturn">
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="decoResult" class="col-sm-3 control-label">验收结果</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="decoResult">
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+
+
+
+
+										<div class="form-group form-footer footer-white">
+											<div class="col-sm-offset-5 col-sm-7">
+												<button type="button" class="btn btn-greensea"
+													onclick="createDecoInfo();">新增</button>
+												&nbsp;&nbsp;&nbsp;
+												<button type="button" class="btn btn-red"
+													onclick="decoGoBack();">返回</button>
+											</div>
+										</div>
+									</form>
+								</div>
+								<!-- /tile body -->
+							</section>
+
+
+							<section class="tile color transparent-black addMode"
+								style="display: none;" id="goodInfo">
+								<!-- tile header -->
+								<div class="tile-header">
+									<h1>新增好人好事：</h1>
+								</div>
+								<!-- /tile header -->
+								<!-- tile body -->
+								<div class="tile-body">
+									<form class="form-horizontal" role="form">
+										<div class="form-group">
+											<label for="goodHost" class="col-sm-3 control-label">业主</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="goodHost"
+													disabled>
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="goodIllegal" class="col-sm-3 control-label">违规违章</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="goodIllegal">
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="goodHelp" class="col-sm-3 control-label">求助</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="goodHelp">
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="goodThing" class="col-sm-3 control-label">好事</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="goodThing">
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group">
+											<label for="goodComment" class="col-sm-3 control-label">备注</label>
+											<div class="col-sm-7">
+												<textarea class="form-control" id="goodComment" rows="6"></textarea>
+											</div>
+											<div class="col-sm-2"></div>
+										</div>
+										<div class="form-group form-footer footer-white">
+											<div class="col-sm-offset-5 col-sm-7">
+												<button type="button" class="btn btn-greensea"
+													onclick="createGoodInfo();">新增</button>
+												&nbsp;&nbsp;&nbsp;
+												<button type="button" class="btn btn-red"
+													onclick="goodGoBack();">返回</button>
+											</div>
+										</div>
+									</form>
+								</div>
+								<!-- /tile body -->
+							</section>
+
+
+
+
+
+
+
+
+						</div>
+						<!-- /col 12 -->
+					</div>
+					<!-- /row -->
+				</div>
+				<!-- /content container -->
+			</div>
+			<!-- Page content end -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		</div>
+		<!-- Make page fluid-->
+	</div>
+	<!-- Wrap all page content end -->
+	<section class="videocontent" id="video"></section>
+
+
+
+
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="assets/js/jquery-1.12.4.min.js"></script>
+	<script src="assets/js/bootbox.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="assets/js/vendor/bootstrap/bootstrap.min.js"></script>
+	<!-- <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css&skin=sons-of-obsidian"></script> -->
+	<script src="assets/js/vendor/mmenu/js/jquery.mmenu.min.js"></script>
+	<script src="assets/js/vendor/sparkline/jquery.sparkline.min.js"></script>
+	<script src="assets/js/vendor/nicescroll/jquery.nicescroll.min.js"></script>
+	<script src="assets/js/vendor/animate-numbers/jquery.animateNumbers.js"></script>
+	<script
+		src="assets/js/vendor/videobackground/jquery.videobackground.js"></script>
+	<script src="assets/js/vendor/blockui/jquery.blockUI.js"></script>
+
+
+	<script src="assets/js/vendor/datatables/jquery.dataTables.min.js"></script>
+	<script src="assets/js/vendor/datatables/ColReorderWithResize.js"></script>
+	<script
+		src="assets/js/vendor/datatables/colvis/dataTables.colVis.min.js"></script>
+	<script src="assets/js/vendor/datatables/tabletools/ZeroClipboard.js"></script>
+	<script
+		src="assets/js/vendor/datatables/tabletools/dataTables.tableTools.min.js"></script>
+	<script src="assets/js/vendor/datatables/dataTables.bootstrap.js"></script>
+
+
+
+
+	<script src="assets/js/vendor/chosen/chosen.jquery.min.js"></script>
+
+
+	<script type="text/javascript" src="assets/toastr/js/toastr.js"></script>
+	<script src="assets/js/minimal.min.js"></script>
+	<script src="assets/Foundation_Datepicker/js/foundation-datepicker.js"></script>
+	<script
+		src="assets/Foundation_Datepicker/js/locales/foundation-datepicker.zh-CN.js"></script>
+	<script type="text/javascript">
+		toastr.options = {
+			positionClass : "toast-top-center",
+			timeOut : "1000"
+		}
+		$('#lastDate').fdatepicker({
+			format : 'yyyy-mm-dd'
+		});
+		$('#propertyDate').fdatepicker({
+			format : 'yyyy-mm-dd'
+		});
+		$('#startTime').fdatepicker({
+			format : 'yyyy-mm-dd'
+		});
+		$('#lastTime').fdatepicker({
+			format : 'yyyy-mm-dd'
+		});
+		$('#endTime').fdatepicker({
+			format : 'yyyy-mm-dd'
+		});
+
+		var plotInfo = null;
+		$.ajax({
+			type : "get",
+			url : "getPlotList",
+			dataType : "json",
+			async : false,
+			success : function(data) {
+				plotInfo = data;
+				for ( var i in data) {
+					$("#plotList").append(
+							"<li><a href='javascript:getProperty("
+									+ data[i].plotId
+									+ ");'> <i class='fa fa-caret-right'></i> "
+									+ data[i].plotName + " </a></li>");
+				}
+			}
+		});
+		$("#clientInfo .tile-body").niceScroll({
+			cursorborder : "1px solid #565056",
+			cursoropacitymax : 0.4,
+			cursorwidth : "8px"
+		});
+		$("#clientInfo .tile-body").getNiceScroll().hide();
+
+		var userInfo = null;
+		var clientInfo = null;
+		var area = 0;
+		var hostId = 0;
+		var hostName = null;
+		$.ajax({
+			type : "get",
+			url : "GetSession",
+			dataType : "json",
+			async : false,
+			success : function(data) {
+				if (data) {
+					userInfo = data;
+					area = data.area;
+					if (data.right == 1) {
+						$("#hide1").hide();
+						$("#hide2").hide();
+						$("#hide3").hide();
+						$("#hide4").hide();
+						$("#allArea").hide();
+					}
+					if (data.right == 0) {
+						$("#navigation").hide();
+					}
+
+					document.getElementById("userName").innerHTML = data.name;
+					//根据用户权限展现添加用户功能
+				} else {
+					window.location.href = "login.html";
+				}
+			}
+		});
+		//在此处判断url中是否带参数
+		if (getQueryString("areaId")) {
+			area = getQueryString("areaId");
+		}
+
+		document.getElementById("areaTitle").innerHTML = ""
+				+ plotInfo[0].plotName + ":";
+
+		if (area > 0) {
+			for ( var i in plotInfo) {
+				if (area == plotInfo[i].plotId) {
+					document.getElementById("areaTitle").innerHTML = ""
+							+ plotInfo[i].plotName + ":";
+					break;
+				}
+			}
+		}
+
+		$
+				.ajax({
+					type : "get",
+					url : "GetProperty",
+					data : {
+						'area' : area
+					},
+					dataType : "json",
+					async : false,
+					cache : false,
+					success : function(data) {
+						clientInfo = data;
+
+						if (data.length < 1) {
+							$("#tbody").empty();
+						} else {
+							$("#tbody").empty();
+							for ( var i in data) {
+								$("#tbody")
+										.append(
+												"<tr tip="+data[i].hostId+">"
+														+ "<td>"
+														+ data[i].buildNum
+														+ "</td>"
+														+ "<td>"
+														+ data[i].roomNum
+														+ "</td>"
+														+ "<td><a href='javascript:checkDetail("
+														+ data[i].hostId
+														+ ");'>"
+														+ data[i].hostName
+														+ "</a></td>"
+														+ "<td>"
+														+ data[i].phone
+														+ "</td>"
+														+ "<td>"
+														+ data[i].receiveDate
+														+ "</td>"
+														+ "<td>"
+														+ data[i].propertyCost
+														+ "</td>"
+														+ "<td>"
+														+ data[i].supposedPay
+														+ "</td>"
+														+ "<td>"
+														+ data[i].propertyDate
+														+ "</td>"
+														+ "<td>"
+														+ data[i].realPay
+														+ "</td>"
+														+ "<td>"
+														+ data[i].car
+														+ "</td>"
+														+ "</tr>");
+							}
+						}
+					}
+				});
+
+		function createUser() {
+			window.location.href = "createUser.html";
+		}
+		function createPlot() {
+			window.location.href = "createPlot.html";
+		}
+		function updatePwd() {
+			bootbox
+					.dialog({
+						title : "修改密码：",
+						closeButton : false,
+						animate : true,
+						locale : "zh-CN",
+						message : "<div class='form-group'>"
+								+ "<label for='password' class='col-sm-4 control-label text-right'>新密码    *</label>"
+								+ "<div class='col-sm-8'>"
+								+ "<input type='password' class='form-control' id='password' parsley-trigger='change' parsley-required='true' parsley-minlength='6'  parsley-validation-minlength='1'>"
+								+ "</div>"
+								+ "</div>"
+								+ "<div class='form-group'>"
+								+ "<label for='repassword' class='col-sm-4 control-label text-right'>确认新密码    *</label>"
+								+ "<div class='col-sm-8'>"
+								+ "<input type='password' class='form-control' id='repassword' parsley-trigger='change' parsley-required='true' parsley-minlength='6'  parsley-validation-minlength='1'>"
+								+ "</div>" + "</div>",
+						buttons : {
+							"success" : {
+								"label" : "确认",
+								"className" : "btn btn-danger btn-sm",
+								"callback" : function() {
+									//判断密码是否一致
+									var pwd = $("#password").val();
+									var repwd = $("#repassword").val();
+									var userName = userInfo.name;
+									if (pwd && repwd) {
+										if (pwd != repwd) {
+											toastr.error('重复密码错误！');
+											$("#repassword").val("");
+											return false;
+										} else {
+											$
+													.ajax({
+														type : "get",
+														url : "updatePwd",
+														dataType : "text",
+														data : {
+															'userName' : userName,
+															'userPwd' : pwd
+														},
+														async : false,
+														success : function(data) {
+															if (data) {
+																logOut();
+															} else {
+																console
+																		.log(data);
+																toastr
+																		.error('修改密码失败！');
+															}
+														},
+														error : function(data) {
+															console.log(data);
+															toastr
+																	.error('修改密码失败！');
+														}
+													});
+										}
+									} else {
+										toastr.error('密码不能为空！');
+										return false;
+									}
+								}
+							},
+							"cancel" : {
+								"label" : "取消",
+								"className" : "btn btn-success btn-sm",
+								"callback" : function() {
+
+								}
+							}
+						}
+					});
+		}
+		function logOut() {
+			$.get("LogOut", function() {
+				window.location.href = "login.html";
+			});
+
+		}
+
+		function getProperty(areaId) {
+			window.location.href = "datatable.html?areaId=" + areaId;
+		}
+
+		//获取url中参数值
+		function getQueryString(name) {
+			var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+			var r = window.location.search.substr(1).match(reg);
+			if (r != null)
+				return unescape(r[2]);
+			return null;
+		}
+
+		function checkDetail(id) {
+			hostId = id;
+			$("#overview").attr("style", "display:none");
+			$("#clientInfo").attr("style", "display:block");
+
+			$("#car").attr("style", "display:block");
+			$("#fix").attr("style", "display:block");
+			$("#deco").attr("style", "display:block");
+			$("#good").attr("style", "display:block");
+			for ( var i in clientInfo) {
+				if (clientInfo[i].hostId == id) {
+					$("#hostId").val(clientInfo[i].hostId);
+					$("#hostName").val(clientInfo[i].hostName);
+					$("#buildNum").val(clientInfo[i].buildNum);
+					$("#roomNum").val(clientInfo[i].roomNum);
+					$("#area").val(clientInfo[i].area);
+					$("#receiveDate").val(clientInfo[i].receiveDate);
+					$("#phone").val(clientInfo[i].phone);
+					$("#sex").val(clientInfo[i].sex);
+					$("#age").val(clientInfo[i].age);
+					$("#nation").val(clientInfo[i].nation);
+					$("#marriage").val(clientInfo[i].marriage);
+					$("#family").val(clientInfo[i].family);
+					$("#company").val(clientInfo[i].company);
+					$("#propertyCost").val(clientInfo[i].propertyCost);
+					$("#serviceCost").val(clientInfo[i].serviceCost);
+					$("#energyCost").val(clientInfo[i].energyCost);
+					$("#liftCost").val(clientInfo[i].liftCost);
+					$("#supposedPay").val(clientInfo[i].supposedPay);
+					$("#lastDate").val(clientInfo[i].lastDate);
+					$("#propertyDate").val(clientInfo[i].propertyDate);
+					$("#realPay").val(clientInfo[i].realPay);
+					$("#comment").val(clientInfo[i].comment);
+					break;
+				}
+			}
+			hostName = $("#hostName").val();
+		}
+
+		function updateBaseInfo() {
+			$.ajax({
+				type : "post",
+				url : "updateBaseInfo",
+				data : {
+					'phone' : $("#phone").val(),
+					'marriage' : $("#marriage").val() == "已婚" ? 1 : 0,
+					'family' : $("#family").val(),
+					'company' : $("#company").val(),
+					'propertyCost' : $("#propertyCost").val(),
+					'serviceCost' : $("#serviceCost").val(),
+					'energyCost' : $("#energyCost").val(),
+					'liftCost' : $("#liftCost").val(),
+					'supposedPay' : $("#supposedPay").val(),
+					'lastDate' : $("#lastDate").val(),
+					'propertyDate' : $("#propertyDate").val(),
+					'realPay' : $("#realPay").val(),
+					'comment' : $("#comment").val(),
+					'hostId' : $("#hostId").val()
+				},
+				dataType : "text",
+				success : function(data) {
+					if (data) {
+						bootbox.dialog({
+							title : "提示",
+							closeButton : false,
+							animate : true,
+							locale : "zh-CN",
+							message : "更新成功！",
+							buttons : {
+								"success" : {
+									"label" : "确认",
+									"className" : "btn btn-success btn-sm",
+									"callback" : function() {
+										goBack();
+										getProperty(area);
+									}
+								}
+							}
+						});
+						//toastr.success('更新成功！');
+						//goBack();
+						//getProperty(area);
+					} else {
+						bootbox.dialog({
+							title : "提示",
+							closeButton : false,
+							animate : true,
+							locale : "zh-CN",
+							message : "更新失败！",
+							buttons : {
+								"success" : {
+									"label" : "确认",
+									"className" : "btn btn-success btn-sm",
+									"callback" : function() {
+										goBack();
+									}
+								}
+							}
+						});
+						//toastr.error('更新失败！');
+						//goBack();
+					}
+				},
+				error : function(data) {
+					console.log(data);
+				}
+			});
+		}
+
+		function goBack() {
+			$("#overview").attr("style", "display:block");
+			$("#clientInfo").attr("style", "display:none");
+
+			$("#car").attr("style", "display:none");
+			$("#fix").attr("style", "display:none");
+			$("#deco").attr("style", "display:none");
+			$("#good").attr("style", "display:none");
+		}
+
+		function addCar() {
+			$("#carHost").val(hostName);
+			$("#clientInfo").attr("style", "display:none");
+			$(".addMode").attr("style", "display:none");
+			$("#carInfo").attr("style", "display:block");
+			//$("#carInfo").attr("style", "display:block");
+			//$("#clientInfo").attr("style", "display:none");
+
+		}
+		function createCarInfo() {
+			$.ajax({
+				type : "post",
+				url : "createCarInfo",
+				data : {
+					'carNum' : $("#carNum").val(),
+					'carState' : $("input[name='carState']:checked").val(),
+					'carPlace' : $("#carPlace").val(),
+					'startTime' : $("#startTime").val(),
+					'lastTime' : $("#lastTime").val(),
+					'endTime' : $("#endTime").val(),
+					'hostId' : hostId
+				},
+				dataType : "text",
+				success : function(data) {
+					if (data) {
+						bootbox.dialog({
+							title : "提示",
+							closeButton : false,
+							animate : true,
+							locale : "zh-CN",
+							message : "新增车位成功！",
+							buttons : {
+								"success" : {
+									"label" : "确认",
+									"className" : "btn btn-success btn-sm",
+									"callback" : function() {
+										carGoBack();
+									}
+								}
+							}
+						});
+						//toastr.success('新增车位成功！');
+						//carGoBack();
+					} else {
+						bootbox.dialog({
+							title : "提示",
+							closeButton : false,
+							animate : true,
+							locale : "zh-CN",
+							message : "新增车位失败！",
+							buttons : {
+								"success" : {
+									"label" : "确认",
+									"className" : "btn btn-success btn-sm",
+									"callback" : function() {
+										carGoBack();
+									}
+								}
+							}
+						});
+						//toastr.error('新增车位失败！');
+						//carGoBack();
+					}
+				},
+				error : function(data) {
+					console.log(data);
+				}
+			});
+		}
+		function carGoBack() {
+			$("#carInfo").attr("style", "display:none");
+			$("#clientInfo").attr("style", "display:block");
+		}
+
+		function addFix() {
+			$("#fixHost").val(hostName);
+			$("#clientInfo").attr("style", "display:none");
+			$(".addMode").attr("style", "display:none");
+			$("#fixInfo").attr("style", "display:block");
+		}
+		function createFixInfo() {
+			$.ajax({
+				type : "post",
+				url : "createFixInfo",
+				data : {
+					'fixMatter' : $("#fixMatter").val(),
+					'fixPerson' : $("#fixPerson").val(),
+					'fixFeedBack' : $("#fixFeedBack").val(),
+					'hostId' : hostId
+				},
+				dataType : "text",
+				success : function(data) {
+					if (data) {
+						bootbox.dialog({
+							title : "提示",
+							closeButton : false,
+							animate : true,
+							locale : "zh-CN",
+							message : "新增报修记录成功！",
+							buttons : {
+								"success" : {
+									"label" : "确认",
+									"className" : "btn btn-success btn-sm",
+									"callback" : function() {
+										fixGoBack();
+									}
+								}
+							}
+						});
+						//toastr.success('新增报修记录成功！');
+						//fixGoBack();
+					} else {
+						bootbox.dialog({
+							title : "提示",
+							closeButton : false,
+							animate : true,
+							locale : "zh-CN",
+							message : "新增报修记录失败！",
+							buttons : {
+								"success" : {
+									"label" : "确认",
+									"className" : "btn btn-success btn-sm",
+									"callback" : function() {
+										fixGoBack();
+									}
+								}
+							}
+						});
+						//toastr.error('新增报修记录失败！');
+						//fixGoBack();
+					}
+				},
+				error : function(data) {
+					console.log(data);
+				}
+			});
+		}
+		function fixGoBack() {
+			$("#fixInfo").attr("style", "display:none");
+			$("#clientInfo").attr("style", "display:block");
+		}
+
+		function addDeco() {
+			$("#decoHost").val(hostName);
+			$("#clientInfo").attr("style", "display:none");
+			$(".addMode").attr("style", "display:none");
+			$("#decoInfo").attr("style", "display:block");
+		}
+		function createDecoInfo() {
+			$.ajax({
+				type : "post",
+				url : "createDecoInfo",
+				data : {
+					'decoProcedure' : $("#decoProcedure").val(),
+					'decoIllegal' : $("#decoIllegal").val(),
+					'decoPatrol' : $("#decoPatrol").val(),
+					'decoPledge' : $("#decoPledge").val(),
+					'decoPledgeReturn' : $("#decoPledgeReturn").val(),
+					'decoResult' : $("#decoResult").val(),
+					'hostId' : hostId
+				},
+				dataType : "text",
+				success : function(data) {
+					if (data) {
+						bootbox.dialog({
+							title : "提示",
+							closeButton : false,
+							animate : true,
+							locale : "zh-CN",
+							message : "新增装修记录成功！",
+							buttons : {
+								"success" : {
+									"label" : "确认",
+									"className" : "btn btn-success btn-sm",
+									"callback" : function() {
+										decoGoBack();
+									}
+								}
+							}
+						});
+						//toastr.success('新增装修记录成功！');
+						//decoGoBack();
+					} else {
+						bootbox.dialog({
+							title : "提示",
+							closeButton : false,
+							animate : true,
+							locale : "zh-CN",
+							message : "新增报修记录失败！",
+							buttons : {
+								"success" : {
+									"label" : "确认",
+									"className" : "btn btn-success btn-sm",
+									"callback" : function() {
+										decoGoBack();
+									}
+								}
+							}
+						});
+						//toastr.error('新增装修记录失败！');
+						//decoGoBack();
+					}
+				},
+				error : function(data) {
+					console.log(data);
+				}
+			});
+		}
+		function decoGoBack() {
+			$("#decoInfo").attr("style", "display:none");
+			$("#clientInfo").attr("style", "display:block");
+		}
+
+		function addGood() {
+			$("#goodHost").val(hostName);
+			$("#clientInfo").attr("style", "display:none");
+			$(".addMode").attr("style", "display:none");
+			$("#goodInfo").attr("style", "display:block");
+		}
+		function createGoodInfo() {
+			$.ajax({
+				type : "post",
+				url : "createGoodInfo",
+				data : {
+					'goodIllegal' : $("#goodIllegal").val(),
+					'goodHelp' : $("#goodHelp").val(),
+					'goodThing' : $("#goodThing").val(),
+					'goodComment' : $("#goodComment").val(),
+					'hostId' : hostId
+				},
+				dataType : "text",
+				success : function(data) {
+					if (data) {
+						bootbox.dialog({
+							title : "提示",
+							closeButton : false,
+							animate : true,
+							locale : "zh-CN",
+							message : "新增好人好事记录成功！",
+							buttons : {
+								"success" : {
+									"label" : "确认",
+									"className" : "btn btn-success btn-sm",
+									"callback" : function() {
+										goodGoBack();
+									}
+								}
+							}
+						});
+						//toastr.success('新增好人好事记录成功！');
+						//goodGoBack();
+					} else {
+						bootbox.dialog({
+							title : "提示",
+							closeButton : false,
+							animate : true,
+							locale : "zh-CN",
+							message : "新增好人好事记录失败！",
+							buttons : {
+								"success" : {
+									"label" : "确认",
+									"className" : "btn btn-success btn-sm",
+									"callback" : function() {
+										goodGoBack();
+									}
+								}
+							}
+						});
+						//toastr.error('新增好人好事记录失败！');
+						//goodGoBack();
+					}
+				},
+				error : function(data) {
+					console.log(data);
+				}
+			});
+		}
+		function goodGoBack() {
+			$("#goodInfo").attr("style", "display:none");
+			$("#clientInfo").attr("style", "display:block");
+		}
+
+		function getCarInfo() {
+			window.location.href = "cartable.html";
+		}
+		function getClientInfo() {
+			window.location.href = "datatable.html";
+		}
+		function getFixInfo() {
+			window.location.href = "fixtable.html";
+		}
+		function getDecoInfo() {
+			window.location.href = "decotable.html";
+		}
+		function getGoodInfo() {
+			window.location.href = "goodtable.html";
+		}
+
+		// Add custom class to pagination div
+		$.fn.dataTableExt.oStdClasses.sPaging = 'dataTables_paginate paging_bootstrap paging_custom';
+
+		/*************************************************/
+		/**************** BASIC DATATABLE ****************/
+		/*************************************************/
+
+		/* Define two custom functions (asc and desc) for string sorting */
+		jQuery.fn.dataTableExt.oSort['string-case-asc'] = function(x, y) {
+			return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+		};
+
+		jQuery.fn.dataTableExt.oSort['string-case-desc'] = function(x, y) {
+			return ((x < y) ? 1 : ((x > y) ? -1 : 0));
+		};
+
+		/* Add a click handler to the rows - this could be used as a callback */
+		$("#basicDataTable tbody tr").click(function(e) {
+			if ($(this).hasClass('row_selected')) {
+				$(this).removeClass('row_selected');
+			} else {
+				oTable01.$('tr.row_selected').removeClass('row_selected');
+				$(this).addClass('row_selected');
+			}
+
+			// FadeIn/Out delete rows button
+			if ($('#basicDataTable tr.row_selected').length > 0) {
+				$('#deleteRow').stop().fadeIn(300);
+			} else {
+				$('#deleteRow').stop().fadeOut(300);
+			}
+		});
+
+		/* Build the DataTable with third column using our custom sort functions */
+		var oTable01 = $('#basicDataTable')
+				.dataTable(
+						{
+							"sDom" : "R<'row'<'col-md-6'l><'col-md-6'f>r>"
+									+ "t"
+									+ "<'row'<'col-md-4 sm-center'i><'col-md-4'><'col-md-4 text-right sm-center'p>>",
+							"oLanguage" : {
+								"sProcessing" : "处理中...",
+								"sLengthMenu" : "显示 _MENU_ 项结果",
+								"sZeroRecords" : "没有匹配结果",
+								"sInfo" : "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+								"sInfoEmpty" : "显示第 0 至 0 项结果，共 0 项",
+								"sInfoFiltered" : "(由 _MAX_ 项结果过滤)",
+								"sInfoPostFix" : "",
+								"sSearch" : "快速检索：",
+								"sUrl" : "",
+								"sEmptyTable" : "表中数据为空",
+								"sLoadingRecords" : "载入中...",
+								"sInfoThousands" : ",",
+								"oPaginate" : {
+									"sFirst" : "首页",
+									"sPrevious" : "上页",
+									"sNext" : "下页",
+									"sLast" : "末页"
+								},
+								"oAria" : {
+									"sSortAscending" : ": 以升序排列此列",
+									"sSortDescending" : ": 以降序排列此列"
+								}
+							},
+							"aoColumnDefs" : [ {
+								'bSortable' : false,
+								'aTargets' : [ "no-sort" ]
+							} ],
+							"fnInitComplete" : function(oSettings, json) {
+								$('.dataTables_filter input').attr(
+										"placeholder", "");
+							}
+						});
+
+		//initialize chosen
+		$('.dataTables_length select').chosen({
+			disable_search_threshold : 10
+		});
+
+		// Append delete button to table
+		var deleteRowLink = '<a href="#" id="deleteRow" class="btn btn-red btn-xs delete-row">删除该条记录</a>'
+		$('#basicDataTable_wrapper').append(deleteRowLink);
+
+		/* Add a click handler for the delete row */
+		$('#deleteRow')
+				.click(
+						function() {
+							var anSelected = fnGetSelected(oTable01);
+							if (anSelected.length !== 0) {
+								bootbox
+										.dialog({
+											title : "删除提示",
+											closeButton : false,
+											animate : true,
+											locale : "zh-CN",
+											message : "确认删除该业主信息 ？",
+											buttons : {
+												"success" : {
+													"label" : "确认",
+													"className" : "btn btn-danger btn-sm",
+													"callback" : function() {
+														var deleteId = $(
+																anSelected[0])
+																.attr("tip");
+														$
+																.ajax({
+																	type : "get",
+																	url : "deleteBaseInfo",
+																	dataType : "text",
+																	data : {
+																		'id' : deleteId
+																	},
+																	async : false,
+																	success : function(
+																			data) {
+																		if (data) {
+																			oTable01
+																					.fnDeleteRow(anSelected[0]);
+																			$(
+																					'#deleteRow')
+																					.stop()
+																					.fadeOut(
+																							300);
+
+																			bootbox
+																					.dialog({
+																						title : "提示",
+																						closeButton : false,
+																						animate : true,
+																						locale : "zh-CN",
+																						message : "删除成功！",
+																						buttons : {
+																							"success" : {
+																								"label" : "确认",
+																								"className" : "btn btn-success btn-sm",
+																								"callback" : function() {
+
+																								}
+																							}
+																						}
+																					});
+																		}
+																	},
+																	error : function(
+																			data) {
+																		console
+																				.log(data);
+																		bootbox
+																				.dialog({
+																					title : "提示",
+																					closeButton : false,
+																					animate : true,
+																					locale : "zh-CN",
+																					message : "删除失败！",
+																					buttons : {
+																						"success" : {
+																							"label" : "确认",
+																							"className" : "btn btn-danger btn-sm",
+																							"callback" : function() {
+
+																							}
+																						}
+																					}
+																				});
+																	}
+																});
+													}
+												},
+												"cancel" : {
+													"label" : "取消",
+													"className" : "btn btn-success btn-sm",
+													"callback" : function() {
+
+													}
+												}
+											}
+										});
+
+							}
+						});
+
+		/* Get the rows which are currently selected */
+		function fnGetSelected(oTable01Local) {
+			return oTable01Local.$('tr.row_selected');
+		};
+	</script>
+</body>
+</html>
